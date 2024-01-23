@@ -5,6 +5,9 @@ const port = process.env.PORT;
 const route = require("./routes/client/index.router");
 const routeAdmin = require("./routes/admin/index.router");
 const database = require("./config/database");
+const systemConfig = require("./config/system")
+//App locals biến
+app.locals.prefixAdmin = systemConfig.prefixAdmin
 
 database.connect();
 
