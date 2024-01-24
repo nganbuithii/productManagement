@@ -25,3 +25,27 @@ if (buttonsStatus.length > 0) {
     });
   });
 }
+
+// tìm kiếm
+const formSearch =document.querySelector("#form-search")
+//nếu có
+if(formSearch){
+     //truyền vào url tìm kiếm
+     let url = new URL(window.location.href);
+    
+    // bắt sự kiện ấn submit
+    formSearch.addEventListener("submit", (e) => {
+        e.preventDefault();// ngăn không cho load lại trang
+        //console.log(e.target.elements.keyword.value);
+        const kw = e.target.elements.keyword.value
+        if (kw) {
+            //search set lại url- thêm param ?status=...
+            url.searchParams.set("keyword", kw);
+        } else {
+            // xóa param status
+            url.searchParams.delete("keyword")
+        }
+          window.location.href = url.href; //chuyển hướng
+       
+    })
+}
