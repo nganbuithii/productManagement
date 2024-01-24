@@ -3,6 +3,7 @@ const product = require("../../models/product.model"); // import model vào
 //import hàm lọc
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search")
+const paginationHelper = require("../../helpers/pagination")
 // [GET] /admin/products
 
 module.exports.index = async (req, res) => {
@@ -19,24 +20,15 @@ module.exports.index = async (req, res) => {
   }
   
 // phân trang
-let objectPagination = {
+const countProduct = await product.countDocuments(find);
+let objectPagination = paginationHelper(
+  {
   currentPage:1,
   limitItemms:4
-}
+  },
+  req.query, countProduct
+  )
 
-if (req.query.page){
-  //nếu ng dùng truyền page
-  objectPagination.currentPage = parseInt(req.query.page);
-  
-}
-
-objectPagination.skip = (objectPagination.currentPage - 1 ) * objectPagination.limitItemms;
-//console.log(objectPagination.currentPage);
-const countProduct = await product.countDocuments(find);
-const totalPage = Math.ceil(countProduct / objectPagination.limitItemms);
-
-// add thêm key vào objPagination
-objectPagination.totalPage = totalPage
 
 //end phân trang
 
