@@ -72,7 +72,7 @@ if(checkboxMulti){
 // form thay đổi nhiều trạng thái - form change multi
 const formChangeMulti = document.querySelector("[form-change-multi]")
 if(formChangeMulti){
-    console.log(formChangeMulti);
+    //console.log(formChangeMulti);
     // bắt sự kiện submit
     formChangeMulti.addEventListener("submit",(e)=> {
         // mặc định khi submit sẽ bị load trang => khắc phục
@@ -106,5 +106,40 @@ if(formChangeMulti){
         }else{
             alert("vui lòng chọn ít nhất một bản ghi !!")
         }
+    })
+}
+
+// xóa sản phẩm
+// lấy ra button-delete
+const buttonDelete = document.querySelectorAll("[button-delete]")
+//console.log(buttonDelete);
+if(buttonDelete.length > 0){
+    // lấy ra form delete
+    const formDelete = document.querySelector("#form-delete-item")
+    // lấy ra đường dẫn bên font end
+    const path = formDelete.getAttribute("data-path")
+
+    buttonDelete.forEach(button => {
+        //bắt sự kiện click button
+        button.addEventListener("click", () => {
+            const isConfirm = confirm(" Bạn có chắc muốn xóa sản phẩm này không?")
+
+            // Nếu ng chọn ok
+            if(isConfirm){
+                const id = button.getAttribute("data-id")
+                //console.log(id);
+
+                // tạo action
+                const action = `${path}/${id}?_method=DELETE`;
+                //console.log(action);
+
+                // gọi phương thức submit
+                formDelete.action = action;
+                formDelete.submit();
+
+            }else{
+
+            }
+        })
     })
 }

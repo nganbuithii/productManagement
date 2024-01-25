@@ -54,10 +54,16 @@ block main
                                     a(href="javascript:;" button-change-status  data-status=item.status data-id=item.id class="badge badge-danger") Dừng hoạt động
                             td 
                                 button.btn.btn-warning.btn-sm Sửa
-                                button.btn.btn-danger.btn-sm.ml-1 Xóa
+                                button(class="btn btn-danger btn-sm ml-1" button-delete data-id = item.id ) Xóa
 
     +pagination(pagination)
-    //-có 2 cách gửi: gửi api or gửi qua form
+    //-có 2 cách gửi: gửi api or gửi qua form - FORRM CHỈNH SỬA TRẠNG THÁI
     form(action="" method="POST" id="form-change-status" data-path= `${prefixAdmin}/products/change-status`)
+
+
+    //- FORM DELETE
+    //- link khi truyền thẳng khi không có biến động
+    //- link path pahir nối chuỗi khi có biện động
+    form(action="" method="POST" id= "form-delete-item" data-path= `${prefixAdmin}/products/delete`)
 
     script(type="application/javascript" src="/admin/js/product.js")
