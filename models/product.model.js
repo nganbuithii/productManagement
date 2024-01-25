@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
   status: String,
   position: Number,
   deleted: Boolean,
+  deleteAt:Date,
 });
 const product = mongoose.model("Product", productSchema, "product");
 //tham số thứ 3 là tên connection nha
