@@ -51,7 +51,7 @@ if(formSearch){
 
 // xử lí khi click phân trang
 const buttonPagination = document.querySelectorAll("[button-pagination]");
-console.log(buttonPagination);
+//console.log(buttonPagination);
 if(buttonPagination){
     let url = new URL(window.location.href);
 

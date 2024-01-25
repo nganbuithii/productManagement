@@ -6,7 +6,7 @@ const route = require("./routes/client/index.router");
 const routeAdmin = require("./routes/admin/index.router");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
-
+var bodyParser = require('body-parser') 
 var methodOverride = require("method-override");
 
 //App locals biến
@@ -21,6 +21,9 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static("public"));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //router
 route(app);
