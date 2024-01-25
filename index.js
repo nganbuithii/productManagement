@@ -5,11 +5,17 @@ const port = process.env.PORT;
 const route = require("./routes/client/index.router");
 const routeAdmin = require("./routes/admin/index.router");
 const database = require("./config/database");
-const systemConfig = require("./config/system")
+const systemConfig = require("./config/system");
+
+var methodOverride = require("method-override");
+
 //App locals biến
-app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 database.connect();
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride("_method"));
 
 app.set("views", "./views");
 app.set("view engine", "pug");
@@ -18,7 +24,7 @@ app.use(express.static("public"));
 
 //router
 route(app);
-routeAdmin(app)
+routeAdmin(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);

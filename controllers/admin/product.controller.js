@@ -4,8 +4,8 @@ const product = require("../../models/product.model"); // import model vào
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
-// [GET] /admin/products
 
+// [GET] /admin/products
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
@@ -51,3 +51,17 @@ let objectPagination = paginationHelper(
     pagination : objectPagination
   });
 };
+
+
+// [get]/admin/products/change-status/:active/:id
+module.exports.changeStatus = async(req,res) =>{
+  const status = req.params.status
+  const id = req.params.id
+  // cập nhật sản phẩm trong database - mongoose
+  await product.updateOne({_id:id},{status:status})
+
+  // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
+  res.redirect('back')
+  
+
+}
