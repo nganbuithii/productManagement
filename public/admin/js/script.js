@@ -82,3 +82,29 @@ if(showAlert){
     showAlert.classList.add("alert-hidden")
   })
 }
+
+
+// preview ảnh - gg search preview image
+const uploadImage = document.querySelector("[upload-image]")
+if (uploadImage){
+  const uploadImageInput = document.querySelector("[upload-image-input]")
+  const uploadImagePreview = document.querySelector("[upload-image-preview]")
+
+  const closeButton = document.querySelector("[close-button]")
+  // lắng nghe sự kiện onchange
+
+  uploadImage.addEventListener("change",(e)=>{
+    console.log(e);
+    const file = e.target.files[0];
+    if(file){
+      uploadImagePreview.src=URL.createObjectURL(file)
+      closeButton.style.display = "block";
+    }
+  })
+
+  closeButton.addEventListener("click",()=>{
+    uploadImagePreview.src="";
+    uploadImageInput.value="";
+    closeButton.style.display = "none"
+  })
+}

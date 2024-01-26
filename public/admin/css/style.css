@@ -75,3 +75,19 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+/* close button*/
+.close-button {
+    position: absolute;
+    top: 5px;
+    left: 85px;
+    background-color: rgb(197, 188, 188); /* Màu nền của nút đóng */
+    color: #e9e6e6; /* Màu chữ của nút đóng */
+    padding: 3px;
+    border-radius: 20%; /* Để tạo hình dạng hình tròn cho nút */
+    display: none; /* Ẩn nút đóng ban đầu */
+}  
+.container-img{
+    position: relative;
+    display: block;
+}
