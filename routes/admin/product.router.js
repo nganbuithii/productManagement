@@ -1,5 +1,7 @@
 const express = require("express");
-
+const multer  = require('multer')
+const storageMulter = require("../../helpers/storageMulter")
+const upload = multer({storage: storageMulter()})
 const router = express.Router();
 
 const controller = require("../../controllers/admin/product.controller");
@@ -14,7 +16,7 @@ router.delete("/delete/:id", controller.deleteItem);
 
 router.get("/create", controller.create);// lấy phương thức get để ra giao diện
 
-router.post("/create", controller.createPost);// khi submit form tạo mới - phương thức post
+router.post("/create", upload.single('thumbnail'), controller.createPost);// khi submit form tạo mới - phương thức post
 
 // export
 module.exports = router;

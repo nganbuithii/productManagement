@@ -3,7 +3,7 @@ block main
     h1.mb-4.text-center Thêm mới sản phẩm 
 
     form(
-        action=`${prefixAdmin}/products/create` id="form-create-product" method="POST" class="container"
+        action=`${prefixAdmin}/products/create` id="form-create-product" method="POST" class="container" enctype="multipart/form-data"
     )
         div(class="form-group")
             label(for="title") Tiêu đề
@@ -31,7 +31,7 @@ block main
         div(class="form-group")
             label(for="thumbnail") ảnh sản phẩm
             input(
-                type="text" class="form-control" id="thumbnail" name="thumbnail" 
+                type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*"
             )
         div(class="form-group")
             label(for="position") Vị trí
