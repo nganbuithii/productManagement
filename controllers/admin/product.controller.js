@@ -43,9 +43,10 @@ module.exports.index = async (req, res) => {
 
   const products = await product
     .find(find)
+    .sort({position : "desc"})
     .limit(objectPagination.limitItemms)
     .skip(objectPagination.skip);
-
+// .sort({position : "desc"}) // để sắp xếp các position  giảm dần 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
@@ -71,8 +72,8 @@ module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(",");
   // chuyển id thành mảng split
-  console.log(type);
-  console.log(ids);
+  //console.log(type);
+  //console.log(ids);
   switch (type) {
     // search tham khảo: update many in mongose
     case "active":
@@ -83,6 +84,23 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await product.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
+      break;
+    case "change-position":
+      console.log(ids);
+      for(const item of ids){
+        
+        //tạo thành mảng
+        console.log(item.split("-"))
+        //phá võ cấu trúc mảng
+        let [id,position] = item.split("-")
+        position = parseInt(position)// đang nhận là string nên ép kiểu về number
+        //console.log(id);
+        //console.log(parseInt(position));
+
+        // vì là vòng lặp nên sd Update One
+        await product.updateOne({ _id: id },{position : position});
+      }
+      break;
     default:
       break;
   }

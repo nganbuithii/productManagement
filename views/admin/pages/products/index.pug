@@ -14,13 +14,13 @@ block main
                     +filter-status(filterStatus)
                 .col-6
                     +search(keyword)
-                    
+
 
     .card.mb-3 
         .card-header Danh sách sản phẩm
         .card-body 
             +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
-            
+
             table(class="table table-hover table-sm " checkbox-multi)
                 thead 
                     tr 
@@ -30,6 +30,7 @@ block main
                         th Hình ảnh 
                         th Tiêu đề
                         th Gía
+                        th Vị trí
                         th Trạng thái 
                         th Hoạt động 
                 tbody 
@@ -47,6 +48,8 @@ block main
                                 )
                             td #{item.title}
                             td #{item.price}
+                            td 
+                                input(type="number" value=item.position style="width:60px; " min="1" name="position")
                             td 
                                 if(item.status == "active")
                                     a(href="javascript:;" button-change-status data-status=item.status data-id=item.id class="badge badge-success") Hoạt động
