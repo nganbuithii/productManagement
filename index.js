@@ -6,8 +6,11 @@ const route = require("./routes/client/index.router");
 const routeAdmin = require("./routes/admin/index.router");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
-var bodyParser = require('body-parser') 
+var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var flash = require("express-flash");
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
 
 //App locals biến
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
@@ -23,7 +26,12 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//express-flash
+app.use(cookieParser("keyboard cat"));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
 
 //router
 route(app);

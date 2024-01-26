@@ -64,6 +64,7 @@ module.exports.changeStatus = async (req, res) => {
   await product.updateOne({ _id: id }, { status: status });
 
   // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
+  req.flash("info","Đổi trạng thái thành công ")
   res.redirect("back");
 };
 
@@ -78,9 +79,11 @@ module.exports.changeMulti = async (req, res) => {
     // search tham khảo: update many in mongose
     case "active":
       await product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      req.flash("info",` cập nhật trạng thái ${ids.length} sản phẩm thành công`)
       break;
     case "inactive":
       await product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      req.flash("info",` cập nhật trạng thái  ${ids.length}sản phẩm thành công`)
       break;
     case "delete-all":
       await product.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
