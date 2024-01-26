@@ -87,6 +87,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
     case "delete-all":
       await product.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
+      req.flash("info",` Xóa  ${ids.length}sản phẩm thành công`)
       break;
     case "change-position":
       console.log(ids);
@@ -117,6 +118,6 @@ module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
   await product.updateOne({ _id: id }, { deleted: true , deteteAt:new Date() });
-
+  req.flash("info","Đã xóa thành công sản phẩm  ")
   res.redirect("back");
 };
