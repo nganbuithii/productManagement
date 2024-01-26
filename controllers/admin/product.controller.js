@@ -1,10 +1,10 @@
-const product = require("../../models/product.model"); // import model vào
-
+const systemConfix = require("../../config/system")
 //import hàm lọc
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
-
+const product = require("../../models/product.model");
+const prefixAdmin = systemConfix.prefixAdmin
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
   let find = {
@@ -104,6 +104,7 @@ module.exports.changeMulti = async (req, res) => {
         // vì là vòng lặp nên sd Update One
         await product.updateOne({ _id: id },{position : position});
       }
+      req.flash("info",` Đã đổi vị trí của ${ids.length}sản phẩm thành công`)
       break;
     default:
       break;
@@ -120,4 +121,39 @@ module.exports.deleteItem = async (req, res) => {
   await product.updateOne({ _id: id }, { deleted: true , deteteAt:new Date() });
   req.flash("info","Đã xóa thành công sản phẩm  ")
   res.redirect("back");
+};
+
+
+// [get] /admin/products/create
+module.exports.create = async (req, res) => {
+  res.render("admin//pages/products/create",{
+    pageTitle:"Thêm sản phẩm"
+  })
+};
+
+// [get] /admin/products/create
+module.exports.createPost = async (req, res) => {
+  // lấy ra data -  khi submit thì mình sẽ nhận data thông qua req.body
+  // vì luuw trong database là kiểu số nên ta cần parseInt
+  req.body.price = parseInt(req.body.price)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.discount = parseInt(req.body.discount)
+
+  if(req.body.position == ""){
+    // tự động tăng - đếm có bao nhiêu bản ghi
+    const countProduct = await product.countDocuments()
+    //console.log(countProduct);
+    req.body.position = countProduct +1;
+    //console.log(req.body.position);
+  }
+  else{
+    req.body.position = parseInt(req.body.position)
+  }
+  //console.log(req.body)
+
+  // code lưu sản phẩm xuống database
+  const newproduct = new product(req.body)
+  await newproduct.save();
+  
+  res.redirect(`${prefixAdmin}/products`)
 };

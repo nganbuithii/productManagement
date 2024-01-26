@@ -12,5 +12,9 @@ router.patch("/change-multi", controller.changeMulti);
 
 router.delete("/delete/:id", controller.deleteItem);
 
+router.get("/create", controller.create);// lấy phương thức get để ra giao diện
+
+router.post("/create", controller.createPost);// khi submit form tạo mới - phương thức post
+
 // export
 module.exports = router;

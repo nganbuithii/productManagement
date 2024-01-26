@@ -12,7 +12,7 @@ var flash = require("express-flash");
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 
-//App locals biến
+//App locals biến - chỉ sử dụng được trong file pug - các file khác muốn sử dụng phải require vào
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 database.connect();
