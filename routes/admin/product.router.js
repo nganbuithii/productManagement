@@ -23,5 +23,8 @@ router.post("/create", upload.single('thumbnail'),validates.createPost, controll
 
 router.get("/edit/:id",controller.edit)// để lấy ra giao diện
 router.patch("/edit/:id", upload.single('thumbnail'),validates.createPost, controller.editPatch);// khi submit thì cập nhật trong database
+
+router.get("/detail/:id",controller.detail)
+
 // export
 module.exports = router;
