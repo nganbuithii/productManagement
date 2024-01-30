@@ -94,7 +94,7 @@ if (uploadImage){
   // lắng nghe sự kiện onchange
 
   uploadImage.addEventListener("change",(e)=>{
-    console.log(e);
+    
     const file = e.target.files[0];
     if(file){
       uploadImagePreview.src=URL.createObjectURL(file)

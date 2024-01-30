@@ -1,6 +1,9 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 block main
     h1.mb-4.text-center Thêm mới sản phẩm 
+
+    +alert-error(5000)
 
     form(
         action=`${prefixAdmin}/products/create` id="form-create-product" method="POST" class="container" enctype="multipart/form-data"
@@ -8,7 +11,7 @@ block main
         div(class="form-group")
             label(for="title") Tiêu đề
             input(
-                type="text" class="form-control" id="title" name="title" required
+                type="text" class="form-control" id="title" name="title" 
             )
         div(class="form-group")
             label(for="desc") Mô tả
