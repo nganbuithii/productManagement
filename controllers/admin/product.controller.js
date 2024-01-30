@@ -133,8 +133,6 @@ module.exports.create = async (req, res) => {
 
 // [patch] /admin/products/create
 module.exports.createPost = async (req, res) => {
-
-
   // lấy ra data -  khi submit thì mình sẽ nhận data thông qua req.body
   // vì luuw trong database là kiểu số nên ta cần parseInt
   req.body.price = parseInt(req.body.price)
@@ -152,9 +150,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position)
   }
   //console.log(req.body)
-  if(req.file){
-      req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
+  // if(req.file){
+  //     req.body.thumbnail = `/uploads/${req.file.filename}`
+  // }
 
   // code lưu sản phẩm xuống database
   const newproduct = new product(req.body)
