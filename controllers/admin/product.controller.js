@@ -131,7 +131,7 @@ module.exports.create = async (req, res) => {
   })
 };
 
-// [get] /admin/products/create
+// [patch] /admin/products/create
 module.exports.createPost = async (req, res) => {
 
 
@@ -162,3 +162,46 @@ module.exports.createPost = async (req, res) => {
   
   res.redirect(`${prefixAdmin}/products`)
 };
+
+// GET /admin/products/edit/:id
+module.exports.edit = async(req,res) => {
+  try{
+    //console.log(req.params.id);
+    const find = {
+      deleted:false,
+      _id : req.params.id,
+    }
+
+    const productEdit = await product.findOne(find)
+    console.log(productEdit);
+    res.render("admin//pages/products/edit",{
+      pageTitle:"Sửa sản phẩm",
+      productEdit:productEdit
+    })
+  }catch(error){
+    res.redirect(`$(systemConfix.prefixAdmin)/products`)
+  }
+  
+}
+
+// PATCH /admin/products/edit/:id
+module.exports.editPatch = async(req,res) => {
+  req.body.price = parseInt(req.body.price)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.discount = parseInt(req.body.discount)
+  req.body.position = parseInt(req.body.position)
+  
+  if(req.file){
+      req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
+
+  // update trong mongoose - updateOne
+  try{
+    await product.updateOne({_id:req.params.id }, req.body);
+    req.flash("info","Cập nhật thông tin thành công ")
+  }
+  catch(error){
+    req.flash("error","Cập nhật thông tin thất bại")
+  }
+  res.redirect("back")
+}

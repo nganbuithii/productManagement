@@ -20,5 +20,8 @@ router.get("/create", controller.create);// lấy phương thức get để ra g
 
 router.post("/create", upload.single('thumbnail'),validates.createPost, controller.createPost);// khi submit form tạo mới - phương thức post
 
+
+router.get("/edit/:id",controller.edit)// để lấy ra giao diện
+router.patch("/edit/:id", upload.single('thumbnail'),validates.createPost, controller.editPatch);// khi submit thì cập nhật trong database
 // export
 module.exports = router;
