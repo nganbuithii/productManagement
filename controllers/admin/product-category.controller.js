@@ -102,8 +102,6 @@ module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(",");
     // chuyển id thành mảng split
-    console.log(type);
-    console.log(ids);
     switch (type) {
       // search tham khảo: update many in mongose
         case "active":
@@ -112,6 +110,8 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" });
             break;
+        case "delete-all":
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
         default:
             break;
     }
@@ -120,3 +120,11 @@ module.exports.changeMulti = async (req, res) => {
 };
 
 
+// [delete] /admin/products-category/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    // lấy ra id
+    const id = req.params.id;
+    //console.log(id);
+    await ProductCategory.updateOne({ _id: id }, { deleted: true , deteteAt:new Date() });
+    res.redirect("back");
+};
