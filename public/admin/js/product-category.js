@@ -25,3 +25,87 @@ if(buttonChangeStatus.length > 0)
         })
     })
 }
+
+
+/* check box -  xử lí tick all*/
+const checkboxMulti = document.querySelector("[checkbox-multi]")
+if(checkboxMulti){
+    const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']")
+    //console.log(inputCheckAll);
+
+    const inputsID = checkboxMulti.querySelectorAll("input[name='id']")
+    //console.log(inputsID);
+    // bắt sự kiện cho check all
+    inputCheckAll.addEventListener("click",()=>{
+        //console.log(inputCheckAll.checked);
+        if(inputCheckAll.checked){
+            //lặp qua input con
+            inputsID.forEach(input => {
+                input.checked = true;
+            })
+        }
+        else{
+            inputsID.forEach(input => {
+                input.checked = false;
+            })
+        }
+    })
+
+    // khi rich hết input thì tick all, nếu bỏ 1 cái -> tắt tickall
+    inputsID.forEach(input => {
+        input.addEventListener("click",()=>{
+            //đếm những ô mình đã check
+            const countChecked = checkboxMulti.querySelectorAll("input[name='id']:checked").length;
+            //console.log(countChecked);
+
+            const Max = inputsID.length;
+            if(countChecked == Max)
+            {
+                inputCheckAll.checked = true;
+            }
+            else{
+                inputCheckAll.checked = false;
+            }
+        })
+    })
+}
+
+// form thay đổi nhiều trạng thái - form change multi
+const formChangeMulti = document.querySelector("[form-change-multi]")
+if(formChangeMulti){
+    console.log(formChangeMulti);
+    // bắt sự kiện submit
+    formChangeMulti.addEventListener("submit",(e)=> {
+        // mặc định khi submit sẽ bị load trang => khắc phục
+        e.preventDefault();
+
+        // khi ấn submit => lấy ra những ô đã check
+        const checkboxMulti = document.querySelector("[checkbox-multi]")
+        const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked")// lấy ra iput đã check
+
+        //console.log(inputsChecked);
+
+        if(inputsChecked.length > 0)
+        {
+            let ids = [];
+
+            inputsChecked.forEach(input => {
+                const id = input.value;
+                ids.push(id) // đẩy id vào mảng ids
+            })
+            //console.log(ids);
+            // chuyển mảng thành text
+            ids = ids.join(",");
+           // console.log(ids);
+            // thêm vào ô input
+            const inputIds = formChangeMulti.querySelector("input[name='ids']")
+            //console.log(inputIds);
+            // gán value  = cái string trên
+            inputIds.value = ids
+            // sau đó submit form
+            formChangeMulti.submit();
+        }else{
+            alert("vui lòng chọn ít nhất một bản ghi !!")
+        }
+    })
+}

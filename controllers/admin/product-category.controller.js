@@ -86,7 +86,7 @@ module.exports.createPost = async (req, res) => {
     res.redirect(`${prefixAdmin}/products-category`)
 }
 
-// [get]/admin/products/change-status/:active/:id
+// [get]/admin/products-category/change-status/:active/:id
 
 module.exports.changeStatus = async(req,res) =>{
     const status = req.params.status
@@ -96,3 +96,27 @@ module.exports.changeStatus = async(req,res) =>{
     // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
     res.redirect('back')
 }
+
+// [patch]/admin/products-category/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(",");
+    // chuyển id thành mảng split
+    console.log(type);
+    console.log(ids);
+    switch (type) {
+      // search tham khảo: update many in mongose
+        case "active":
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "active" });
+            break;
+        case "inactive":
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+            break;
+        default:
+            break;
+    }
+    res.redirect("back");
+    //res.send("ok")
+};
+
+

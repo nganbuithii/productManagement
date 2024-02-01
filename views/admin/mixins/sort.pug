@@ -8,3 +8,12 @@ mixin sort()
             option(value="title-asc") Tiêu đề A-Z
             option(value="title-desc") tiêu đề  z-a
         button( class=" btn btn-danger mt-2" sort-clear) Clear
+
+mixin sort-category()
+    div(sort)
+        select( class="form-control" name = "sort" sort-select)
+            option(value="position-desc") vị trí giảm dần 
+            option(value="position-asc") vị trí tăng dần 
+            option(value="title-asc") Tiêu đề A-Z
+            option(value="title-desc") tiêu đề  z-a
+        button( class=" btn btn-danger mt-2" sort-clear) Clear

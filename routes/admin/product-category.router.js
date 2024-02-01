@@ -17,5 +17,8 @@ router.get("/create", controller.create);
 router.post("/create", upload.single('thumbnail'),uploadCloud.upload,validates.createPost, controller.createPost);// khi submit form tạo mới - phương thức post
 
 router.patch("/change-status/:status/:id", controller.changeStatus);
+
+router.patch("/change-multi", controller.changeMulti);
+
 // export
 module.exports = router;
