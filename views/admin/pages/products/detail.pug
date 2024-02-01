@@ -7,6 +7,9 @@ block main
     if (productF.price)
         div.mb-4 Gía :<b> #{productF.price} </b>
     
+    if (productF.description)
+        div.mb-4 Mô tả :<b> !{productF.description} </b>
+    
     if (productF.discountPercentage)
         div.mb-4 Giam giá : <b> #{productF.discountPercentage} </b>
 

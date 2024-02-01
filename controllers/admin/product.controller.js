@@ -101,11 +101,11 @@ module.exports.changeMulti = async (req, res) => {
       req.flash("info",` Xóa  ${ids.length}sản phẩm thành công`)
       break;
     case "change-position":
-      console.log(ids);
+      //console.log(ids);
       for(const item of ids){
         
         //tạo thành mảng
-        console.log(item.split("-"))
+        //console.log(item.split("-"))
         //phá võ cấu trúc mảng
         let [id,position] = item.split("-")
         position = parseInt(position)// đang nhận là string nên ép kiểu về number
@@ -149,7 +149,7 @@ module.exports.createPost = async (req, res) => {
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discount = parseInt(req.body.discount)
-
+  req.body.description = req.body.description || ""; // Đảm bảo trường mô tả luôn có giá trị
   if(req.body.position == ""){
     // tự động tăng - đếm có bao nhiêu bản ghi
     const countProduct = await product.countDocuments()
@@ -160,7 +160,7 @@ module.exports.createPost = async (req, res) => {
   else{
     req.body.position = parseInt(req.body.position)
   }
-  //console.log(req.body)
+  console.log(req.body)
   // if(req.file){
   //     req.body.thumbnail = `/uploads/${req.file.filename}`
   // }
@@ -182,7 +182,7 @@ module.exports.edit = async(req,res) => {
     }
 
     const productEdit = await product.findOne(find)
-    console.log(productEdit);
+    //console.log(productEdit);
     res.render("admin//pages/products/edit",{
       pageTitle:"Sửa sản phẩm",
       productEdit:productEdit
@@ -225,7 +225,7 @@ module.exports.detail = async(req,res) =>{
     } 
 
     const productF = await product.findOne(find)
-    console.log(productF);
+    //console.log(productF);
     res.render("admin//pages/products/detail",{
       pageTitle:productF.title,
       productF:productF

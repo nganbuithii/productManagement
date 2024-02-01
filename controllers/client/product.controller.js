@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
     })
     .sort({ position: "desc" }); //lấy data
 
-  console.log(products); // in ra
+  //console.log(products); // in ra
 
   const newProduct = products.map((item) => {
     item.priceNew = (
