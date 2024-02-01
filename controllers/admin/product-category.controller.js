@@ -3,6 +3,7 @@ const prefixAdmin = systemConfix.prefixAdmin
 const ProductCategory = require("../../models/product-category.model")
 const searchHelper = require("../../helpers/search");
 const filterStatusHelper = require("../../helpers/filterStatus")
+const paginationHelper = require("../../helpers/pagination");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
     let find = {
@@ -10,34 +11,55 @@ module.exports.index = async (req, res) => {
     };
     // đoạn bộ lọc
     const filterStatus = filterStatusHelper(req.query);
+
     // tìm kiếm
     const objectSearch = searchHelper(req.query);
     if (objectSearch.regex) {
-        find.title = objectSearch.regex;
+    find.title = objectSearch.regex;
     }
-      // truy vấn tìm kiếm sp theo status
+
+    // phân trang
+    const countProduct = await ProductCategory.countDocuments(find);
+    let objectPagination = paginationHelper(
+    {
+        currentPage: 1,
+        limitItemms: 4,
+    },
+    req.query,
+    countProduct
+    );
+    //end phân trang
+
+
+    // truy vấn tìm kiếm sp theo status
     if (req.query.status) {
-        find.status = req.query.status;
+    find.status = req.query.status;
     }
     // sắp xếp
     let sort = {}
     // nếu ngta có truyền url thif
     if(req.query.sortKey && req.query.sortValue)
     {
-        sort[req.query.sortKey] = req.query.sortValue
+    sort[req.query.sortKey] = req.query.sortValue
     }
     else {
-        // neeus k co thì sapxếp mặc định
-        sort.position = "desc"
+    // neeus k co thì sapxếp mặc định
+    sort.position = "desc"
     }
-   // end sắp xếp
-    const records = await ProductCategory.find(find).sort(sort) // để sắp xếp các position  giảm dần 
-
+    
+      // end sắp xếp
+    
+    const records = await ProductCategory
+        .find(find)
+        .limit(objectPagination.limitItemms)
+        .skip(objectPagination.skip)
+        .sort(sort) // để sắp xếp các position  giảm dần 
     res.render("admin/pages/product-category/index", {
         pageTitle: "Danh mục sản phẩm",
         records:records,//records : bản ghi
         keyword: objectSearch.keyword,
         filterStatus: filterStatus,
+        pagination: objectPagination,
     });
 };
 
