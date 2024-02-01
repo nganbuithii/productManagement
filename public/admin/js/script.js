@@ -108,3 +108,47 @@ if (uploadImage){
     closeButton.style.display = "none"
   })
 }
+
+
+// sort
+const sort = document.querySelector("[sort]")
+// neu co
+if (sort){
+  const sortSelect = sort.querySelector("[sort-select]")
+  const sortClear = sort.querySelector("[sort-clear]")
+
+  // sau khi phá vỡ cấu trúc xong thì truyền giá trị lên url
+  let url = new URL (window.location.href)
+  // lắng nghe sự kiện thay đổi
+  sortSelect.addEventListener("change",(e)=>{
+    const value = e.target.value;
+    // phá vỡ cấu trúc
+    const [sortKey, sortValue ] = value.split("-")// chuyển string thành 1 mảng
+    // console.log(sortKey);
+    
+    // truyền url 
+    url.searchParams.set("sortKey", sortKey)
+    url.searchParams.set("sortValue", sortValue)
+    window.location.href = url.href
+  })
+
+  // khi ấn clear thì set lại url ban đầu , lắng nghe sk " click"
+  sortClear.addEventListener("click",() => {
+    url.searchParams.delete("sortKey")
+    url.searchParams.delete("sortValue")
+    window.location.href = url.href
+  })
+  // thêm selected = true nếu opt đó được chọn
+  const sortK = url.searchParams.get("sortKey")
+  const sortV= url.searchParams.get("sortValue")
+
+  // nếu có tồn tại thì
+  if(sortK&& sortV){
+    const stringSort = `${sortK}-${sortV}`
+    //console.log(stringSort);
+    // lấy ra opt đc chọn
+    const optionSelected = sortSelect.querySelector(`option[value='${stringSort}']`)
+    //console.log(optionSelected);
+    optionSelected.selected = true;
+  }
+}

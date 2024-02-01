@@ -29,7 +29,6 @@ module.exports.index = async (req, res) => {
     req.query,
     countProduct
   );
-
   //end phân trang
 
   // truy vấn tìm kiếm sp theo status
@@ -40,13 +39,25 @@ module.exports.index = async (req, res) => {
   if (req.query.status) {
     find.status = req.query.status;
   }
+  // sắp xếp
+  let sort = {}
+ // nếu ngta có truyền url thif
+  if(req.query.sortKey && req.query.sortValue)
+  {
+    sort[req.query.sortKey] = req.query.sortValue
+  }
+  else {
+    // neeus k co thì sapxếp mặc định
+    sort.position = "desc"
+  }
+  
+  // end sắp xếp
 
   const products = await product
     .find(find)
-    .sort({position : "desc"})
     .limit(objectPagination.limitItemms)
-    .skip(objectPagination.skip);
-// .sort({position : "desc"}) // để sắp xếp các position  giảm dần 
+    .skip(objectPagination.skip)
+    .sort(sort) // để sắp xếp các position  giảm dần 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
