@@ -2,9 +2,9 @@ const express = require("express");
 const multer  = require('multer')
 //const storageMulter = require("../../helpers/storageMulter")
 const upload = multer()
-const router = express.Router();
-const validates = require("../../validates/admin/products.validate.js")
 
+const validates = require("../../validates/admin/products.validate.js")
+const router = express.Router();
 const controller = require("../../controllers/admin/product.controller");
 const { validate } = require("../../models/product.model");
 
