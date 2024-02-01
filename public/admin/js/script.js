@@ -1,4 +1,4 @@
-// button status
+// button status trên bộ lọc
 const buttonsStatus = document.querySelectorAll("[button-status]");
 if (buttonsStatus.length > 0) {
   //lấy url
@@ -11,7 +11,7 @@ if (buttonsStatus.length > 0) {
     button.addEventListener("click", () => {
       // lấy ra status
       const status = button.getAttribute("button-status");
-      //console.log(status);
+      console.log(status);
 
       if (status) {
         //search set lại url- thêm param ?status=...

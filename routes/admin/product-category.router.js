@@ -9,11 +9,13 @@ const { validate } = require("../../models/product.model");
 const uploadCloud = require ("../../middlewares/admin/uploadCloud.middlewares.js")
 
 const router = express.Router();
+// /admin/products-category
 router.get("/", controller.index);
 
 // GET /admin/products-category/create
 router.get("/create", controller.create);
 router.post("/create", upload.single('thumbnail'),uploadCloud.upload,validates.createPost, controller.createPost);// khi submit form tạo mới - phương thức post
 
+router.patch("/change-status/:status/:id", controller.changeStatus);
 // export
 module.exports = router;

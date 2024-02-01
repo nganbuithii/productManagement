@@ -1,6 +1,20 @@
 extends ../../layout/default.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/formChangeMulti.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 block main
     h1 trang danh mục sản phẩm
+    .card.mb-3 
+        .card-header Bộ lọc và tìm kiếm 
+        .card-body 
+            .row
+                .col-6
+                    +filter-status(filterStatus)
+                .col-6
+                    +search(keyword)
     .card.mb-3 
         .card-header Danh mục sản phẩm
         .card-body 
@@ -43,4 +57,7 @@ block main
                                 a(href=`${prefixAdmin}/products-category/detail/${item.id}` class="btn btn-secondary btn-sm ml-1") Xem chi tiết
                                 a(href=`${prefixAdmin}/products-category/edit/${item.id}` class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm ml-1" button-delete data-id = item.id ) Xóa
-                                
+    
+    form(action="" method="POST" id="form-change-status" data-path= `${prefixAdmin}/products-category/change-status`)
+
+    script(type="application/javascript" src="/admin/js/product-category.js")                       

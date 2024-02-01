@@ -31,10 +31,7 @@ module.exports.index = async (req, res) => {
   );
   //end phân trang
 
-  // truy vấn tìm kiếm sp theo status
-  if (req.query.status) {
-    find.status = req.query.status;
-  }
+
   // truy vấn tìm kiếm sp theo status
   if (req.query.status) {
     find.status = req.query.status;
