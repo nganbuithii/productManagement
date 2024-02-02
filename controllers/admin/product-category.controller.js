@@ -4,6 +4,7 @@ const ProductCategory = require("../../models/product-category.model")
 const searchHelper = require("../../helpers/search");
 const filterStatusHelper = require("../../helpers/filterStatus")
 const paginationHelper = require("../../helpers/pagination");
+const createTreeHelper = require("../../helpers/createTree");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
     let find = {
@@ -30,6 +31,7 @@ module.exports.index = async (req, res) => {
     );
     //end phân trang
 
+   
 
     // truy vấn tìm kiếm sp theo status
     if (req.query.status) {
@@ -49,14 +51,18 @@ module.exports.index = async (req, res) => {
     
       // end sắp xếp
     
+    
     const records = await ProductCategory
         .find(find)
         .limit(objectPagination.limitItemms)
         .skip(objectPagination.skip)
-        .sort(sort) // để sắp xếp các position  giảm dần 
+        //.sort(sort) // để sắp xếp các position  giảm dần 
+
+         //create Tree
+    const newRecords = createTreeHelper.tree(records)
     res.render("admin/pages/product-category/index", {
         pageTitle: "Danh mục sản phẩm",
-        records:records,//records : bản ghi
+        records:newRecords,//records : bản ghi
         keyword: objectSearch.keyword,
         filterStatus: filterStatus,
         pagination: objectPagination,
@@ -65,8 +71,29 @@ module.exports.index = async (req, res) => {
 
 //GET /admin/products-category/create
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted:false
+    }
+    // sắp xếp
+    let sort = {}
+    // nếu ngta có truyền url thif
+    if(req.query.sortKey && req.query.sortValue)
+    {
+        sort[req.query.sortKey] = req.query.sortValue }
+    else {
+    // neeus k co thì sapxếp mặc định
+    sort.position = "desc"
+    }
+
+    // lấy ra các danh mục để đổ ra giao diện " danh mục cha"
+    const records = await ProductCategory.find(find)
+
+      //create Tree
+    const newRecords = createTreeHelper.tree(records)
+    //console.log(newRecords);
     res.render("admin/pages/product-category/create", {
         pageTitle: "Tạo danh mục",
+        records:newRecords
     });
 }
 //POST /admin/products-category/create
