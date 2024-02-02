@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/selectTree.pug
 block main
     h1.mb-4.text-center Thêm mới sản phẩm 
 
@@ -13,6 +14,12 @@ block main
             input(
                 type="text" class="form-control " id="title" name="title" 
             )
+        div(class = "form-group")
+            label(for="productCategoryId") Danh mục 
+            select(name="productCategoryId" id="productCategoryId" class="form-control")
+                option(value="" ) --chọn danh mục--
+                if(category)
+                    +select-tree(category)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(name="description" id="desc" class="form-control textarea-mce" rows="5") 

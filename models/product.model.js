@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
   thumbnail: String,
   status: String,
   position: Number,
+  productCategoryId : { type:String, default:""},
   slug: { type: String, slug: "title", unique:true },
   deleted: {
     type:Boolean,
@@ -18,7 +19,8 @@ const productSchema = new mongoose.Schema({
   deleteAt:Date},
   {
     timestamps:true
-  }
+  },
+  
 );
 const product = mongoose.model("Product", productSchema, "product");
 //tham số thứ 3 là tên connection nha

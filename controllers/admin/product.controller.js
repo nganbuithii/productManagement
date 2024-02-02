@@ -4,7 +4,9 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 const prefixAdmin = systemConfix.prefixAdmin
+const createTreeHelper = require("../../helpers/createTree");
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
   let find = {
@@ -134,10 +136,20 @@ module.exports.deleteItem = async (req, res) => {
 
 // [get] /admin/products/create
 module.exports.create = async (req, res) => {
-  res.render("admin//pages/products/create",{
-    pageTitle:"Thêm sản phẩm"
-  })
-};
+  let find = {
+        deleted: false,
+    };
+  const category = await ProductCategory.find(find);
+
+  //create Tree
+  const newCategory= createTreeHelper.tree(category);
+  
+  res.render("admin/pages/products/create", {
+      pageTitle: "Thêm sản phẩm",
+      category: newCategory
+  });
+}
+    
 
 // [patch] /admin/products/create
 module.exports.createPost = async (req, res) => {
@@ -222,7 +234,7 @@ module.exports.detail = async(req,res) =>{
 
     const productF = await product.findOne(find)
     //console.log(productF);
-    res.render("admin//pages/products/detail",{
+    res.render("admin/pages/products/detail",{
       pageTitle:productF.title,
       productF:productF
     })

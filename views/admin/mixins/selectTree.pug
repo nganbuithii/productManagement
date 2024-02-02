@@ -3,7 +3,7 @@ mixin select-tree(items, level = 1 , parent_id="" )
         - const prefix = Array(level + 1).join("---- ")
         option(value=item.id selected = item.id == parent_id ? true : false) #{prefix}#{item.title}
             if item.children && item.children.length > 0
-                +select-tree (item.children , level + 1, parent_id)
+                +select-tree(item.children , level + 1, parent_id)
 //- lặp qua từng item, với level = 1, ở opt ngoài hiển thị tên thì hiển thị --
 //- nếu item đó có children thì gọi lại cái select tree, tăng level ( đệ quy)
 //- khai báo biến cần dấu trừ - const
