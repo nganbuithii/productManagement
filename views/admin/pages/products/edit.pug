@@ -16,7 +16,7 @@ block main
             )
         div(class="form-group")
             label(for="desc") Mô tả
-            textarea(name="description" id="desc" class="form-control" rows="5") #{productEdit.desc}
+            textarea(name="description" id="desc" class="form-control textarea-mce" rows="5") !{productEdit.description}
         div(class="form-group")
             label(for="price") Gía
             input(

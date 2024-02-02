@@ -21,7 +21,6 @@ module.exports.index = async (req, res) => {
 
     // phân trang
     const count = await ProductCategory.countDocuments(find);
-    console.log(count);
     let objectPagination = paginationHelper(
     {
         currentPage: 1,
