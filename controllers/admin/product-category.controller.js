@@ -20,18 +20,16 @@ module.exports.index = async (req, res) => {
     }
 
     // phân trang
-    const countProduct = await ProductCategory.countDocuments(find);
+    const count = await ProductCategory.countDocuments(find);
+    console.log(count);
     let objectPagination = paginationHelper(
     {
         currentPage: 1,
         limitItemms: 4,
     },
-    req.query,
-    countProduct
+    req.query,count
     );
     //end phân trang
-
-   
 
     // truy vấn tìm kiếm sp theo status
     if (req.query.status) {
@@ -50,16 +48,17 @@ module.exports.index = async (req, res) => {
     }
     
       // end sắp xếp
-    
-    
+
     const records = await ProductCategory
         .find(find)
-        .limit(objectPagination.limitItemms)
-        .skip(objectPagination.skip)
+      //.limit(objectPagination.limitItemms)
+        //.skip(objectPagination.skip)
         //.sort(sort) // để sắp xếp các position  giảm dần 
 
          //create Tree
     const newRecords = createTreeHelper.tree(records)
+
+
     res.render("admin/pages/product-category/index", {
         pageTitle: "Danh mục sản phẩm",
         records:newRecords,//records : bản ghi
