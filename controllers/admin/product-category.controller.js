@@ -153,3 +153,47 @@ module.exports.deleteItem = async (req, res) => {
     await ProductCategory.updateOne({ _id: id }, { deleted: true , deteteAt:new Date() });
     res.redirect("back");
 };
+
+//Cannot GET /admin/products-category/edit/:id
+module.exports.edit = async (req, res) => {
+    try{
+        const id = req.params.id;// lấy ra id cần edit
+        let find = {
+            deleted:false
+        }
+        const data = await ProductCategory.findOne({_id:id, deleted:false}) // lấy ra danh mục có id = id đang truyền vào, và chưa bị xóa (deleted = false)
+
+        // lấy ra các danh mục để đổ ra giao diện " danh mục cha"
+        const records = await ProductCategory.find(find)
+
+        //create Tree
+        const newRecords = createTreeHelper.tree(records)
+        res.render("admin/pages/product-category/edit", {
+            pageTitle: "Tạo danh mục",
+            data:data,
+            records: newRecords
+            
+        });
+    }catch(error){
+        res.redirect(`$(systemConfix.prefixAdmin)/products-category`)
+    }
+}
+//Cannot PATCH /admin/products-category/edit/:id
+module.exports.editPatch = async (req, res) => {
+    // xử lí truwownhf hợp khi sửa id bậy trên url -> try catch
+    try{
+        const id = req.params.id;// lấy ra id cần edit
+            //console.log(req.body);
+            // update lại thành số
+            req.body.position = parseInt(req.body.position)
+            
+            //update vào database
+            await ProductCategory.updateOne({_id:id}, req.body)
+            req.flash("info","Cập nhật thông tin thành công ")
+    }catch(error)
+    {
+        req.flash("error","Cập nhật thông tin thất bại")
+    }
+    res.redirect("back")
+}
+    
