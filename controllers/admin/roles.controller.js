@@ -81,7 +81,7 @@ module.exports.permission = async (req, res) => {
 
   // lấy ra trong db
   const records = await Roles.find(find)
-
+  
   res.render("admin/pages/roles/permissions", {
     pageTitle: "Phân quyền",
     records:records
@@ -104,3 +104,25 @@ module.exports.permissionPatch = async (req, res) => {
   req.flash("info","cập nhập phân quyền thành công")
   res.redirect("back")
 }
+
+// GET /admin/roles/detail/id
+module.exports.detail = async(req, res) => {
+  let find = {
+    deleted :false,
+    _id:req.params.id
+  }
+  const records = await Roles.findOne(find)
+  res.render("admin/pages/roles/detail", {
+    pageTitle: "Chỉnh sửa quyền",
+    records:records
+  });
+}
+
+// [delete] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  // lấy ra id
+  const id = req.params.id;
+  console.log(id);
+  await Roles.deleteOne({ _id: id });
+  res.redirect("back");
+};

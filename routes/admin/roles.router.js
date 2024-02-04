@@ -16,7 +16,13 @@ router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id", controller.editPatch);
 
 router.get("/permissions", controller.permission);
+
 router.patch("/permissions", controller.permissionPatch);
+
+router.get("/detail/:id", controller.detail);
+
+router.delete("/delete/:id", controller.deleteItem);
+
 
 
 

@@ -1,0 +1,9 @@
+extends ../../layout/default.pug
+
+block main
+    .container 
+        h1.text-center Xem chi tiết Quyền
+        p.text-center Tên quyền: #{records.title}
+        p.text-center Mô tả quyền: #{records.description}
+                
+        a(class="btn btn-success text-center" href=`${prefixAdmin}/roles/edit/${records.id}`) Chỉnh sửa 
