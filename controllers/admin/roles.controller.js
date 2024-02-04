@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const systemConfix = require("../../config/system")
 
 const Roles = require("../../models/roles.model");
@@ -68,5 +69,38 @@ module.exports.editPatch = async (req, res) => {
   {
     req.flash("error","Cập nhật thông tin thất bại")
   }
+  res.redirect("back")
+}
+
+// GET /admin/roles/permissions
+
+module.exports.permission = async (req, res) => {
+  let find = {
+    deleted:false
+  }
+
+  // lấy ra trong db
+  const records = await Roles.find(find)
+
+  res.render("admin/pages/roles/permissions", {
+    pageTitle: "Phân quyền",
+    records:records
+  });
+}
+
+// Patch /admin/roles/permissions
+module.exports.permissionPatch = async (req, res) => {
+  // lấy ra data
+  console.log(req.body);
+  // chuyển json thành mảng
+  const permission = JSON.parse(req.body.permission)
+  console.log(permission);
+
+  // luuw vào db 
+  for (const item of permission){
+    
+    await Roles.updateOne({_id:item.id},{permission:item.permission})
+  }
+  req.flash("info","cập nhập phân quyền thành công")
   res.redirect("back")
 }
