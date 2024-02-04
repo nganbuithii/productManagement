@@ -1,0 +1,36 @@
+extends ../../layout/default.pug
+
+block main
+    h1 NHÓM QUYỀN
+
+    .card.mb-3 
+        .card-header Danh mục sản phẩm
+        .card-body 
+            .row 
+                .col-8  
+            
+                .col-4
+                    a(href=`${prefixAdmin}/roles/create` class="btn btn-outline-success") + Thêm mới           
+    
+            table(class="table table-hover table-sm " checkbox-multi)
+                thead 
+                    tr 
+                        th STT 
+                        th Tiêu đề
+                        th Mô tả
+                        th Hoạt động
+                tbody 
+                    if records && records.length > 0
+                        each item, index in records
+                            tr 
+                                td #{index+1}
+                                td #{item.title}
+                                td #{item.description}
+                                
+                                td 
+                                    a(href=`${prefixAdmin}/roles/detail/${item.id}` class="btn btn-secondary btn-sm ml-1") Xem chi tiết
+                                    a(href=`${prefixAdmin}/roles/edit/${item.id}` class="btn btn-warning btn-sm") Sửa
+                                    button(class="btn btn-danger btn-sm ml-1" button-delete data-id = item.id ) Xóa
+                    else
+                        tr
+                            td(colspan="4" class = "text-center") Không có nhóm quyền nào

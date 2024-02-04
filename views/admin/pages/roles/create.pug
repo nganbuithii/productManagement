@@ -1,0 +1,16 @@
+extends ../../layout/default.pug
+
+block main
+    h1.text-center THÊM MỚI NHÓM QUYỀN
+
+    form(action=`${prefixAdmin}/roles/create` method = "post" class="container mt-5")
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(type="text" class="form-control" id="title" name="title" required)
+        div(class="form-group")
+            label(for="description") Tiêu đề
+            input(type="text" class="form-control" id="description" name="description" required)
+        div(class="form-group")
+            button(class="btn btn-success" type="submit") Tạo mới
+
+
