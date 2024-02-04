@@ -1,0 +1,19 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1.text-center CHỈNH SỬA QUYỀN
+    +alert-error(5000)
+    +alert-success(3000)
+
+    form(action=`${prefixAdmin}/roles/edit/${records.id}?_method=PATCH` method = "post" class="container mt-5")
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(type="text" class="form-control" id="title" name="title" required value=records.title)
+        div(class="form-group")
+            label(for="description") Tiêu đề
+            input(type="text" class="form-control" id="description" name="description" required value=records.description)
+        div(class="form-group")
+            button(class="btn btn-success" type="submit") Cập nhật thông tin
+
+

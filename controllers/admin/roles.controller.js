@@ -18,7 +18,6 @@ module.exports.index = async (req, res) => {
 
 //GET /admin/roles/create
 module.exports.create = async (req, res) => {
-  
     res.render("admin/pages/roles/create", {
         pageTitle: "Tạo mới quyền",
       });
@@ -33,4 +32,41 @@ module.exports.createPost = async (req, res) => {
   await record.save()
 
   res.redirect(`${prefixAdmin}/roles`)
+}
+
+//GET /admin/roles/edit/id
+module.exports.edit = async (req, res) => {
+  try{
+    const find = {
+      deleted:false,
+      _id : req.params.id,
+    }
+
+    const records = await Roles.findOne(find)// truy vấn database
+
+    res.render("admin/pages/roles/edit", {
+      pageTitle: "Chỉnh sửa quyền",
+      records:records
+    });
+  }catch(error)
+  {
+    res.redirect(`${prefixAdmin}/roles`)
+  }
+}
+
+//PATCH /admin/roles/edit/:id
+module.exports.editPatch = async (req, res) => {
+  // xử lí truwownhf hợp khi sửa id bậy trên url -> try catch
+  try{
+    const id = req.params.id;// lấy ra id cần edit
+        //console.log(req.body);
+
+        //update vào database
+        await Roles.updateOne({_id:id}, req.body)
+        req.flash("info","Cập nhật thông tin thành công ")
+  }catch(error)
+  {
+    req.flash("error","Cập nhật thông tin thất bại")
+  }
+  res.redirect("back")
 }
