@@ -1,0 +1,48 @@
+extends ../../layout/default.pug
+
+block main
+    h1 DANH SÁCH TÀI KHOẢN
+
+    .card.mb-3 
+        .card-header Danh sách tài khoản
+        .card-body 
+            .row
+                .col-8 
+                .col-4.text-right 
+                    a(href=`${prefixAdmin}/accounts/create` class="btn btn-success") Thêm mới 
+        div #{records}
+    table(class="table table-hover table-sm " checkbox-multi)
+                thead 
+                    tr 
+                        
+                        th STT 
+                        th Họ và tên
+                        th Email
+                        th Hình ảnh
+                        th Phân quyền
+                        th Trạng thái 
+                        th Hoạt động 
+                tbody 
+                    each item, index in records
+                        tr 
+                
+                            td #{index+1}
+                            td #{item.email}
+                            td #{item.fullName}
+                            td 
+                                img(
+                                    src=item.thumbnail
+                                    alt=item.fullName
+                                    width="100px"
+                                    height="auto"
+                                )
+                            td #{item.role.title}
+                            td 
+                                if(item.status == "active")
+                                    a(href="javascript:;" button-change-status data-status=item.status data-id=item.id class="badge badge-success") Hoạt động
+                                else 
+                                    a(href="javascript:;" button-change-status  data-status=item.status data-id=item.id class="badge badge-danger") Dừng hoạt động
+                            td 
+                                a(href=`${prefixAdmin}/products/detail/${item.id}` class="btn btn-secondary btn-sm ml-1") Xem chi tiết
+                                a(href=`${prefixAdmin}/products/edit/${item.id}` class="btn btn-warning btn-sm") Sửa
+                                button(class="btn btn-danger btn-sm ml-1" button-delete data-id = item.id ) Xóa
