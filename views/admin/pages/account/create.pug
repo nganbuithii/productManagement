@@ -5,8 +5,9 @@ block main
     h1.text-center TẠO TÀI KHOẢN
     +alert-error(3000)
     +alert-success(2000)
+    
     if(records)
-        form(action=`${prefixAdmin}/accounts/create` method="post" enctype="multipart/form-data " class="container")
+        form( class="container" action = `${prefixAdmin}/accounts/create` method = "POST" enctype="multipart/form-data")
             //- enctype: là thuộc tính để tải file lên
             div(class = "form-group")
                 label(for="fullName") Họ và tên*
@@ -21,9 +22,9 @@ block main
                 label(for="phone") Phone number
                 input( type="text" class="form-control" id="phone" name ="phone"  )
             div(class="form-group" upload-image)
-                label(for="thumbnail") Avatar
+                label(for="avatar") Avatar
                 input(
-                    type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*" upload-image-input
+                    type="file" class="form-control-file" id="avatar" name="avatar" accept="image/*" upload-image-input
                 )
                 div.container-img
                     img(src="" upload-image-preview style="width:100px;" class=" mt-3") 

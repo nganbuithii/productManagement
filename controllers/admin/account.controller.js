@@ -47,7 +47,7 @@ module.exports.createPost = async (req, res) => {
         email:req.body.email,
         deleted:false
     })
-    console.log(mailExist);
+    
     if(mailExist){
         req.flash("error"," email đã tồn tại");
         res.redirect("back")
@@ -55,7 +55,6 @@ module.exports.createPost = async (req, res) => {
     else{
         req.body.password = md5(req.body.password)
         const records = new Account(req.body)
-
         await records.save()
         res.redirect(`${prefixAdmin}/accounts`)
     }
