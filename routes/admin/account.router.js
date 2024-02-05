@@ -18,5 +18,8 @@ router.get("/create", controller.create);
 
 router.post("/create", upload.single('avatar'),uploadCloud.upload,validates.createPost, controller.createPost);// khi submit form tạo mới - phương thức post
 
+router.get("/edit/:id", controller.edit);
+
+router.patch("/edit/:id", upload.single('avatar'),uploadCloud.upload,validates.editPatch,controller.editPatch);
 // export
 module.exports = router;
