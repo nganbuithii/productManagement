@@ -4,9 +4,17 @@ const Account = require("../../models/account.model");
 var md5 = require('md5');
 // GET /admin/auth/login
 module.exports.index = async(req, res) => {
-    res.render("admin/pages/auth/login"),{
-        pageTitle:" Đăng nhập"
+    //console.log(req.body.token); -test
+    if(req.body.token){
+        // nếu đã tồn tại token thì
+        res.redirect(`${prefixAdmin}/dashboard`)
+
+    }else{
+        res.render("admin/pages/auth/login"),{
+                pageTitle:" Đăng nhập"
+            }
     }
+    
 }
 
 //Cannot POST /admin/auth/login

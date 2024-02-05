@@ -7,19 +7,20 @@ const accountRouter = require("./account.router")
 const authRouter = require("./auth.router")
 const systemConfig = require("../../config/system")
 
+const authMiddlewares = require("../../middlewares/admin/auth.middlewares")
 
 // để sử dụng đc thì sd module.export
 module.exports = (app) =>{
     const PATH_ADMIN= systemConfig.prefixAdmin
-    app.use(PATH_ADMIN+'/dashboard',dashboardRouter);
+    app.use(PATH_ADMIN+'/dashboard', authMiddlewares.requiredAuth,dashboardRouter);
     
-    app.use(PATH_ADMIN+'/products',productRouter);
+    app.use(PATH_ADMIN+'/products',authMiddlewares.requiredAuth,productRouter);
 
     app.use(PATH_ADMIN+'/products-category',productCategoryRouter);
 
-    app.use(PATH_ADMIN+'/roles',rolesRouter);
+    app.use(PATH_ADMIN+'/roles',authMiddlewares.requiredAuth,rolesRouter);
 
-    app.use(PATH_ADMIN+'/accounts',accountRouter);
+    app.use(PATH_ADMIN+'/accounts',authMiddlewares.requiredAuth, accountRouter);
     
     app.use(PATH_ADMIN+'/auth',authRouter);
 }
