@@ -11,17 +11,28 @@ const productSchema = new mongoose.Schema({
   status: String,
   position: Number,
   productCategoryId : { type:String, default:""},
+  createBy:{// lưu người tạo
+    account_id: String,
+    createAt:{
+      type:Date,
+      default: Date.now
+    }
+  },
   slug: { type: String, slug: "title", unique:true },
   deleted: {
-    type:Boolean,
+    type: Boolean,
     default: false
   },
-  deleteAt:Date},
-  {
-    timestamps:true
-  },
-  
-);
+  deleteBy: { // lưu người tạo
+    account_id: String,
+    deleteAt: {
+      type: Date,
+      default: Date
+      // vì cập nhật lại nên sử dụng Date
+    }
+  }
+}, { timestamps: true });
+
 const product = mongoose.model("Product", productSchema, "product");
 //tham số thứ 3 là tên connection nha
 

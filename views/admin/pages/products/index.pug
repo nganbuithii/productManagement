@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/formChangeMulti.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 block main
     
     if(role.permission.includes("product-view"))
@@ -51,6 +52,7 @@ block main
                             th Tiêu đề
                             th Gía
                             th Vị trí
+                            th Người tạo
                             th Trạng thái 
                             th Hoạt động 
                     tbody 
@@ -70,6 +72,12 @@ block main
                                 td #{item.price}
                                 td 
                                     input(type="number" value=item.position style="width:60px; " min="1" name="position")
+                                td 
+                                    p #{item.accountFullName} 
+                                    p 
+                                        +formatDateTime(item.createBy.createAt)                     
+                                //- chuyển thành ngày hiện trên giao diện. convert timestamp
+                                //- cài thư viện npm moment
                                 td 
                                     if(role.permission.includes("product-edit"))
                                         if(item.status == "active")

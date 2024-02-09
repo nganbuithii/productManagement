@@ -4,6 +4,7 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const product = require("../../models/product.model");
+const Account = require("../../models/account.model");
 const ProductCategory = require("../../models/product-category.model");
 const prefixAdmin = systemConfix.prefixAdmin
 const createTreeHelper = require("../../helpers/createTree");
@@ -52,11 +53,23 @@ module.exports.index = async (req, res) => {
   
   // end sắp xếp
 
+  
   const products = await product
     .find(find)
     .limit(objectPagination.limitItemms)
     .skip(objectPagination.skip)
     .sort(sort) // để sắp xếp các position  giảm dần 
+
+    // truy vấn tên 
+  for (const product of products){
+    const user = await Account.findOne({
+      _id:product.createBy.account_id
+    })
+    // nếu có tồn tại
+    if(user){
+      product.accountFullName = user.fullName
+    }
+  }
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
@@ -143,7 +156,7 @@ module.exports.create = async (req, res) => {
 
   //create Tree
   const newCategory= createTreeHelper.tree(category);
-  
+  //console.log(res.locals.user); //- res.locals.user : lưu user đang đăng nhập
   res.render("admin/pages/products/create", {
       pageTitle: "Thêm sản phẩm",
       category: newCategory
@@ -173,6 +186,10 @@ module.exports.createPost = async (req, res) => {
   //     req.body.thumbnail = `/uploads/${req.file.filename}`
   // }
 
+  // lưu người tạo sản phẩm
+  req.body.createBy = {
+    account_id:res.locals.user.id
+  }
   // code lưu sản phẩm xuống database
   const newproduct = new product(req.body)
   await newproduct.save();

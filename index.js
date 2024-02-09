@@ -13,8 +13,12 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var path = require('path');
 
+// thư viện convert timestamp
+const moment = require("moment")
+
 //App locals biến - chỉ sử dụng được trong file pug - các file khác muốn sử dụng phải require vào
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment
 
 database.connect();
 
