@@ -91,10 +91,10 @@ module.exports.permission = async (req, res) => {
 // Patch /admin/roles/permissions
 module.exports.permissionPatch = async (req, res) => {
   // lấy ra data
-  console.log(req.body);
+  //console.log(req.body);
   // chuyển json thành mảng
   const permission = JSON.parse(req.body.permission)
-  console.log(permission);
+  //console.log(permission);
 
   // luuw vào db 
   for (const item of permission){
