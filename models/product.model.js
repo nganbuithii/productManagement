@@ -23,14 +23,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  deleteBy: { // lưu người tạo
+  deleteBy:{ // lưu người tạo
     account_id: String,
-    deleteAt: {
-      type: Date,
-      default: Date
-      // vì cập nhật lại nên sử dụng Date
-    }
-  }
+    deleteAt:Date
+  },
 }, { timestamps: true });
 
 const product = mongoose.model("Product", productSchema, "product");
