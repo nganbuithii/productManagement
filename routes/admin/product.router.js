@@ -24,7 +24,7 @@ router.post("/create", upload.single('thumbnail'),uploadCloud.upload,validates.c
 
 
 router.get("/edit/:id",controller.edit)// để lấy ra giao diện
-router.patch("/edit/:id", uploadCloud.upload,validates.createPost, controller.editPatch);// khi submit thì cập nhật trong database
+router.patch("/edit/:id", upload.single('thumbnail'),validates.createPost, controller.editPatch);// khi submit thì cập nhật trong database
 
 router.get("/detail/:id",controller.detail)
 

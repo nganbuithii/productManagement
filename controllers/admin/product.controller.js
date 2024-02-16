@@ -213,15 +213,15 @@ module.exports.edit = async(req,res) => {
     }
 
     const productEdit = await product.findOne(find)
-    //console.log(productEdit);
-    res.render("admin/pages/products/edit",{
+    console.log(productEdit);
+    res.render("admin//pages/products/edit",{
       pageTitle:"Sửa sản phẩm",
       productEdit:productEdit
     })
   }catch(error){
     res.redirect(`$(systemConfix.prefixAdmin)/products`)
   }
-  
+
 }
 
 // PATCH /admin/products/edit/:id
@@ -230,13 +230,14 @@ module.exports.editPatch = async(req,res) => {
   req.body.stock = parseInt(req.body.stock)
   req.body.discount = parseInt(req.body.discount)
   req.body.position = parseInt(req.body.position)
-  
+
   if(req.file){
       req.body.thumbnail = `/uploads/${req.file.filename}`
   }
 
   // update trong mongoose - updateOne
   try{
+    //console.log(req.body);
     await product.updateOne({_id:req.params.id }, req.body);
     req.flash("info","Cập nhật thông tin thành công ")
   }

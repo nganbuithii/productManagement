@@ -1,66 +1,66 @@
 extends ../../layout/default.pug
 include ../../mixins/alert.pug
 block main
-    if(role.permission.includes("product-edit"))
-        h1.mb-4.text-center Chỉnh sửa sản phẩm
-        //-div #{productEdit}    ---test dữ liệu
-        +alert-error(5000)
-        +alert-success(3000)
+    h1.mb-4.text-center Chỉnh sửa sản phẩm
+    //-div #{productEdit}    ---test dữ liệu
+    +alert-error(5000)
+    +alert-success(3000)
 
-        form(
-            action=`${prefixAdmin}/products/edit/${productEdit.id}?_method=PATCH` id="form-edit-product" method="POST" class="container" enctype="multipart/form-data"
-        )
-            div(class="form-group")
-                label(for="title") Tiêu đề
-                input(
-                    type="text" class="form-control" id="title" name="title" value=productEdit.title
-                )
-            div(class="form-group")
-                label(for="desc") Mô tả
-                textarea(name="description" id="desc" class="form-control textarea-mce" rows="5") !{productEdit.description}
-            div(class="form-group")
-                label(for="price") Gía
-                input(
-                    type="number" class="form-control" id="price" name="price" min="0" value=productEdit.price
-                )
-            div(class="form-group")
-                label(for="discount") % giảm giá
-                input(
-                    type="number" class="form-control" id="discount" name="discount" min="0" value=productEdit.discountPercentage
-                )
-            div(class="form-group")
-                label(for="stock") Số lượng
-                input(
-                    type="number" class="form-control" id="stock" name="stock" value=productEdit.stock min="0"
-                )
-            div(class="form-group" upload-image)
-                label(for="thumbnail") ảnh sản phẩm
-                input(
-                    type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*" upload-image-input
-                )
-                div.container-img
-                    img(src=productEdit.thumbnail upload-image-preview style="width:100px;" class=" mt-3") 
-                    <span class="close-button" close-button >X</span>
-                
-                
-            div(class="form-group")
-                label(for="position") Vị trí
-                input(
-                    type="number" class="form-control" id="position" name="position"  min="1"
-                    placeholder=" Tự động tăng" value=productEdit.position
-                )
-            div(class="form-group form-check for-check-inline")
-                input(
-                    type="radio" class="form-check-input" id="statusActive" name="status" value="active" 
-                    checked = (productEdit.status == "active" ? true : false)
-                )
-                label(for="statusActive" class ="form-check-label") hoạt động
-            div(class="form-group form-check for-check-inline")
-                input(
-                    type="radio" class="form-check-input" id="statusInactive" name="status" value="inactive" 
-                    checked = (productEdit.status == "inactive" ? true : false)
-                )
-                label(for="statusInactive" class ="form-check-label") dừng hoạt động
-            div(class="form-group")
-                button(type="submit" class="btn btn-secondary") Cập nhật
-        script(src="/admin/js/script.js")
+    form(
+        action=`${prefixAdmin}/products/edit/${productEdit.id}?_method=PATCH` id="form-edit-product" method="POST" class="container" enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text" class="form-control" id="title" name="title" value=productEdit.title
+            )
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(name="description" id="desc" class="form-control" rows="5") #{productEdit.desc}
+        div(class="form-group")
+            label(for="price") Gía
+            input(
+                type="number" class="form-control" id="price" name="price" min="0" value=productEdit.price
+            )
+        div(class="form-group")
+            label(for="discount") % giảm giá
+            input(
+                type="number" class="form-control" id="discount" name="discount" min="0" 
+                value=productEdit.discountPercentage
+            )
+        div(class="form-group")
+            label(for="stock") Số lượng
+            input(
+                type="number" class="form-control" id="stock" name="stock" value=productEdit.stock min="0"
+            )
+        div(class="form-group" upload-image)
+            label(for="thumbnail") ảnh sản phẩm
+            input(
+                type="file" class="form-control-file" id="thumbnail" name="thumbnail" accept="image/*" upload-image-input
+            )
+            div.container-img
+                img(src=productEdit.thumbnail upload-image-preview style="width:100px;" class=" mt-3") 
+                <span class="close-button" close-button >X</span>
+
+
+        div(class="form-group")
+            label(for="position") Vị trí
+            input(
+                type="number" class="form-control" id="position" name="position"  min="1"
+                placeholder=" Tự động tăng" value=productEdit.position
+            )
+        div(class="form-group form-check for-check-inline")
+            input(
+                type="radio" class="form-check-input" id="statusActive" name="status" value="active" 
+                checked = (productEdit.status == "active" ? true : false)
+            )
+            label(for="statusActive" class ="form-check-label") hoạt động
+        div(class="form-group form-check for-check-inline")
+            input(
+                type="radio" class="form-check-input" id="statusInactive" name="status" value="inactive" 
+                checked = (productEdit.status == "inactive" ? true : false)
+            )
+            label(for="statusInactive" class ="form-check-label") dừng hoạt động
+        div(class="form-group")
+            button(type="submit" class="btn btn-secondary") Cập nhật
+    script(src="/admin/js/product.js")

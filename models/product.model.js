@@ -27,6 +27,13 @@ const productSchema = new mongoose.Schema({
     account_id: String,
     deleteAt:Date
   },
+  updateBy:[
+    {
+    // cập nhật người chỉnh sửa, lưu dạng obj 1 mảng
+    account_id: String,
+    updateAt:Date
+    } 
+  ],
 }, { timestamps: true });
 
 const product = mongoose.model("Product", productSchema, "product");
