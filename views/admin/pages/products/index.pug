@@ -53,6 +53,7 @@ block main
                             th Gía
                             th Vị trí
                             th Người tạo
+                            th Người chỉnh sửa
                             th Trạng thái 
                             th Hoạt động 
                     tbody 
@@ -78,6 +79,14 @@ block main
                                         +formatDateTime(item.createBy.createAt)                     
                                 //- chuyển thành ngày hiện trên giao diện. convert timestamp
                                 //- cài thư viện npm moment
+                                td 
+                                    - const updateBy = item.updateBy.slice(-1)[0];
+                                    if(updateBy)
+                                        p #{updateBy.accountFullName} 
+                                        p 
+                                            +formatDateTime(updateBy.updateAt)  
+                                    else 
+                                        p Chưa cập nhật
                                 td 
                                     if(role.permission.includes("product-edit"))
                                         if(item.status == "active")
