@@ -55,7 +55,8 @@ block main
                                     else 
                                         .badga.badge-danger Hoạt động
                             td 
-                                a(href=`${prefixAdmin}/accounts/detail/${item.id}` class="btn btn-secondary btn-sm ml-1") Xem chi tiết
+                                if(role.permission.includes("account-view"))
+                                    a(href=`${prefixAdmin}/accounts/detail/${item.id}` class="btn btn-secondary btn-sm ml-1") Xem chi tiết
                                 if(role.permission.includes("account-edit"))
                                     a(href=`${prefixAdmin}/accounts/edit/${item.id}` class="btn btn-warning btn-sm") Sửa
                                 if(role.permission.includes("account-delete"))

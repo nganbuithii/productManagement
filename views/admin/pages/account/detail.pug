@@ -1,0 +1,38 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    div.container
+        if(role.permission.includes("account-view"))
+            h1.text-center THÔNG TIN TÀI KHOẢN
+            +alert-error(3000)
+            +alert-success(2000) 
+            //-div #{records}
+            if(records.fullName)
+                h1.mb-4 Tên Tài Khoản: 
+                p #{records.fullName}
+            if(records.email)
+                h1.mb-4 Email:
+                p #{records.email}
+            if (records.avatar)
+                .mb-4 
+                    img(
+                        src= records.avatar
+                        style="width:100px;"
+                    )
+            if (records.status)
+            .mb-4 
+                span Trạng thái: 
+                if (records.status === "active")
+                    span.badge.badge-success Hoạt động
+                else 
+                    span.badge.badge-success Dừng hoạt động
+            if records && records.role && records.role.title
+                span Quyền: 
+                span.badge.badge-success #{records.role.title}
+            else
+                p Chưa có quyền
+            div
+        if(role.permission.includes("account-edit"))
+            a(href=`${prefixAdmin}/accounts/edit/${records.id}` class="btn btn-warning btn-sm mt-3") Sửa thông tin tài khoản
+            

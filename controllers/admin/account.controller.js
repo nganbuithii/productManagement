@@ -122,3 +122,26 @@ module.exports.editPatch = async (req, res) => {
     res.redirect("back")
     
 }
+
+//GET /admin/accounts/detail/:id
+module.exports.detail = async (req, res) => {
+    try{
+        const find = {
+            deleted:false,
+            _id : req.params.id,
+        } 
+        const record = await Account.findOne(find).select("-password -token")
+        const role = await Roles.findOne({
+            deleted: false,
+            _id: record.role_id
+        })
+        
+        record.role = role 
+        res.render("admin/pages/account/detail",{
+            pageTitle:"Thông tin tài khoản",
+            records:record
+            })
+    }catch(error){
+        res.redirect(`${prefixAdmin}/accounts`)
+    }
+}
