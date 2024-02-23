@@ -1,6 +1,7 @@
 // [GET] /products
 
 const product = require("../../models/product.model");
+const productHelper = require("../../helpers/products")
 
 module.exports.index = async (req, res) => {
   const products = await product
@@ -13,13 +14,9 @@ module.exports.index = async (req, res) => {
 
   //console.log(products); // in ra
 
-  const newProduct = products.map((item) => {
-    item.priceNew = (
-      (item.price * (100 - item.discountPercentage)) /
-      100
-    ).toFixed(0);
-    return item;
-  });
+  // tính giá tiền sau giảm
+  const newProduct = productHelper.priceNewProducts(products)
+
   res.render("client/pages/products/index.pug", {
     pageTitle: "Trang ds sản phẩm",
     products: newProduct,

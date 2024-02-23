@@ -221,7 +221,7 @@ module.exports.createPost = async (req, res) => {
     // vì luuw trong database là kiểu số nên ta cần parseInt
     req.body.price = parseInt(req.body.price)
     req.body.stock = parseInt(req.body.stock)
-    req.body.discount = parseInt(req.body.discount)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.description = req.body.description || ""; // Đảm bảo trường mô tả luôn có giá trị
     if(req.body.position == ""){
       // tự động tăng - đếm có bao nhiêu bản ghi
@@ -236,7 +236,7 @@ module.exports.createPost = async (req, res) => {
     // if(req.file){
     //     req.body.thumbnail = `/uploads/${req.file.filename}`
     // }
-
+    console.log(req.body);
     // lưu người tạo sản phẩm
     req.body.createBy = {
       account_id:res.locals.user.id
@@ -280,7 +280,7 @@ module.exports.editPatch = async(req,res) => {
   if(permission.includes("product-edit")){
     req.body.price = parseInt(req.body.price)
     req.body.stock = parseInt(req.body.stock)
-    req.body.discount = parseInt(req.body.discount)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.position = parseInt(req.body.position)
 
     if(req.file){

@@ -1,34 +1,10 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
-
+include ../../mixins/product-layout.pug
 block main
   .container 
     .row 
       .col-12 
           +box-head("Danh sách sản phẩm")
-
-    .row.justify-content-center
-      each item in products
-        .col-md-4.mb-4
-          .card.bg-secondary
-            img.card-img-top.inner-image(src=item.thumbnail, alt=item.title)
-            .card-body
-              h5.card-title.mb-3 
-                a(href=`/products/${item.slug}`) #{item.title}
-              p.card-text.mb-2
-                strong Gía gốc: 
-                del 
-                  span.text-light.ml-2 #{item.price}$
-              p.card-text
-                strong Gía sau giảm: 
-                span.text-light.ml-2 #{item.priceNew}$
-              p.card-text
-                strong Giảm giá: 
-                span.text-light.ml-2 #{item.discountPercentage}%
-              //-a.btn.btn-primary.btn-block(href='#') xem chi tiết
-
-
-
-
-
-
+    +product-grid(products)
+    

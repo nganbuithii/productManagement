@@ -90,3 +90,22 @@
 .sub-menu ul li:hover > ul{
     display: block;
 }
+.image-container {
+    height: 400px; /* Điều chỉnh chiều cao tùy ý */
+    overflow: hidden; /* Đảm bảo hình ảnh không vượt ra khỏi container */
+    position: relative;
+}
+
+.image-container img {
+width: 100%;
+height: 100%;
+object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp méo */
+}
+.inner-featured{
+    position: absolute;
+    top: 0;right: 0;
+    color:#dcd7d7;
+    background-color:rgb(255, 0, 89);
+    padding: 3px;
+    border-radius: 10px 0 10px 0;
+}
