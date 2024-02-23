@@ -6,4 +6,7 @@ header.header
                     a(href="/admin/dashboard") admin
             .col-9
                 .text-right 
+                    a(href=`${prefixAdmin}/my-account` class="btn btn-primary") #{user.fullName}
+                    //- user là biến toàn cục
                     a(href=`${prefixAdmin}/auth/logout` class="btn btn-success") Đăng xuất
+                
