@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
   thumbnail: String,
   status: String,
   position: Number,
+  featured: String,
   productCategoryId : { type:String, default:""},
   createBy:{// lưu người tạo
     account_id: String,

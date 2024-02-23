@@ -42,6 +42,7 @@ block main
                 img(src=productEdit.thumbnail upload-image-preview style="width:100px;" class=" mt-3") 
                 <span class="close-button" close-button >X</span>
 
+        
 
         div(class="form-group")
             label(for="position") Vị trí
@@ -49,6 +50,21 @@ block main
                 type="number" class="form-control" id="position" name="position"  min="1"
                 placeholder=" Tự động tăng" value=productEdit.position
             )
+        
+        label(for="thumbnail") Sản phẩm nổi bật
+            div(class="form-group form-check for-check-inline")
+                input(
+                    type="radio" class="form-check-input" id="featured1" name="featured"  value="1"
+                    checked = (productEdit.featured == "1" ? true : false)
+                )
+                label(for="featured" class ="form-check-label") Có
+            div(class="form-group form-check for-check-inline")
+                input(
+                    type="radio" class="form-check-input"  id="featured0" name="featured" value="0" 
+                    checked = (productEdit.featured == "0" ? true : false)
+                )
+                label(for="statusInactive" class ="form-check-label") Không
+                
         div(class="form-group form-check for-check-inline")
             input(
                 type="radio" class="form-check-input" id="statusActive" name="status" value="active" 

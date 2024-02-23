@@ -8,7 +8,7 @@ const categoryMiddlewares = require("../../middlewares/client/category.middlewar
 // để sử dụng đc thì sd module.export
 module.exports = (app) =>{
     //- bởi vì danh mục trang nào cũng có -> tránh gọi đi, bị lặp codde -> sử dụng app.use
-    app.use(categoryMiddlewares)
+    app.use(categoryMiddlewares.category)
 
     app.use('/', homeRouter);
 
