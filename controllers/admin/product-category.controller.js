@@ -96,52 +96,71 @@ module.exports.create = async (req, res) => {
 }
 //POST /admin/products-category/create
 module.exports.createPost = async (req, res) => {
-    // vị trí tự động tăng
-    if(req.body.position == ""){
-        const count= await ProductCategory.countDocuments()
-        req.body.position = count+1;
+    const permission = res.locals.role.permission
+    //console.log(res.locals.role.permission);
+    if(permission.includes("product-category-create")){
+        if(req.body.position == ""){
+            const count= await ProductCategory.countDocuments()
+            req.body.position = count+1;
+        }
+        else{
+            req.body.position = parseInt(req.body.position)
+        }
+        // lưu xuống db
+        const category = new ProductCategory(req.body)
+        await category.save();
+    
+        res.redirect(`${prefixAdmin}/products-category`)
     }
     else{
-        req.body.position = parseInt(req.body.position)
+        return
+        // để chặn quyền khi ai đó biết link , họ dùng post man gửi lên, lúc đó data bị rác
     }
-    // lưu xuống db
-    const category = new ProductCategory(req.body)
-    await category.save();
-
-    res.redirect(`${prefixAdmin}/products-category`)
 }
 
 // [get]/admin/products-category/change-status/:active/:id
 
 module.exports.changeStatus = async(req,res) =>{
-    const status = req.params.status
-    const id = req.params.id
-    // cập nhật sản phẩm trong database - mongoose
-    await ProductCategory.updateOne({_id:id},{status:status})
-    // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
-    res.redirect('back')
+    const permission = res.locals.role.permission
+    //console.log(res.locals.role.permission);
+    if(permission.includes("product-category-edit")){
+        const status = req.params.status
+        const id = req.params.id
+        // cập nhật sản phẩm trong database - mongoose
+        await ProductCategory.updateOne({_id:id},{status:status})
+        // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
+        res.redirect('back')
+    } else{
+        return
+    }
 }
 
 // [patch]/admin/products-category/change-multi
 module.exports.changeMulti = async (req, res) => {
-    const type = req.body.type;
-    const ids = req.body.ids.split(",");
-    // chuyển id thành mảng split
-    switch (type) {
-      // search tham khảo: update many in mongose
-        case "active":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "active" });
-            break;
-        case "inactive":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" });
-            break;
-        case "delete-all":
-            await ProductCategory.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
-        default:
-            break;
+    const permission = res.locals.role.permission
+    //console.log(res.locals.role.permission);
+    if(permission.includes("product-category-edit")){
+        const type = req.body.type;
+        const ids = req.body.ids.split(",");
+        // chuyển id thành mảng split
+        switch (type) {
+        // search tham khảo: update many in mongose
+            case "active":
+                await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "active" });
+                break;
+            case "inactive":
+                await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+                break;
+            case "delete-all":
+                await ProductCategory.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
+            default:
+                break;
+        }
+        res.redirect("back");
+        //res.send("ok")
+    } else{
+        return
     }
-    res.redirect("back");
-    //res.send("ok")
 };
 
 
@@ -180,20 +199,26 @@ module.exports.edit = async (req, res) => {
 }
 //Cannot PATCH /admin/products-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-    // xử lí truwownhf hợp khi sửa id bậy trên url -> try catch
-    try{
-        const id = req.params.id;// lấy ra id cần edit
-            //console.log(req.body);
-            // update lại thành số
-            req.body.position = parseInt(req.body.position)
-            
-            //update vào database
-            await ProductCategory.updateOne({_id:id}, req.body)
-            req.flash("info","Cập nhật thông tin thành công ")
-    }catch(error)
-    {
-        req.flash("error","Cập nhật thông tin thất bại")
+    const permission = res.locals.role.permission
+    //console.log(res.locals.role.permission);
+    if(permission.includes("product-category-edit")){
+        // xử lí truwownhf hợp khi sửa id bậy trên url -> try catch
+        try{
+            const id = req.params.id;// lấy ra id cần edit
+                //console.log(req.body);
+                // update lại thành số
+                req.body.position = parseInt(req.body.position)
+                
+                //update vào database
+                await ProductCategory.updateOne({_id:id}, req.body)
+                req.flash("info","Cập nhật thông tin thành công ")
+        }catch(error)
+        {
+            req.flash("error","Cập nhật thông tin thất bại")
+        }
+        res.redirect("back")
+    }else{
+        return
     }
-    res.redirect("back")
 }
     

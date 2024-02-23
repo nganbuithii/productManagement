@@ -95,74 +95,86 @@ module.exports.index = async (req, res) => {
 
 // [patch]/admin/products/change-status/:active/:id
 module.exports.changeStatus = async (req, res) => {
-  const status = req.params.status;
-  const id = req.params.id;
+  const permission = res.locals.role.permission
 
-  // cập nhật trường update By
-  const updateBy = {
-    account_id:res.locals.user.id,
-    updateAt:new Date()
+  if(permission.includes("product-edit")){
+    const status = req.params.status;
+    const id = req.params.id;
+
+    // cập nhật trường update By
+    const updateBy = {
+      account_id:res.locals.user.id,
+      updateAt:new Date()
+    }
+    // cập nhật sản phẩm trong database - mongoose
+    await product.updateOne({ _id: id }, 
+      { status: status ,
+        $push:{ updateBy:updateBy}// thêm vào mảng 
+      });
+
+    // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
+    req.flash("info","Đổi trạng thái thành công ")
+    res.redirect("back");
+  }else{
+    return
   }
-  // cập nhật sản phẩm trong database - mongoose
-  await product.updateOne({ _id: id }, 
-    { status: status ,
-      $push:{ updateBy:updateBy}// thêm vào mảng 
-    });
-
-  // tham khảo tài liệu api -reference - response - redirect(chuyển hướng)
-  req.flash("info","Đổi trạng thái thành công ")
-  res.redirect("back");
 };
 
 // [patch]/admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
-  const type = req.body.type;
-  const ids = req.body.ids.split(",");
-  // chuyển id thành mảng split
-  //console.log(type);
-  //console.log(ids);
+  const permission = res.locals.role.permission
 
-  // cập nhật trường update By
-  const updateBy = {
-    account_id:res.locals.user.id,
-    updateAt:new Date()
-  }
-  switch (type) {
-    // search tham khảo: update many in mongose
-    case "active":
-      await product.updateMany({ _id: { $in: ids } }, { status: "active",$push:{ updateBy:updateBy} });
-      req.flash("info",` cập nhật trạng thái ${ids.length} sản phẩm thành công`)
-      break;
-    case "inactive":
-      await product.updateMany({ _id: { $in: ids } }, { status: "inactive",$push:{ updateBy:updateBy} });
-      req.flash("info",` cập nhật trạng thái  ${ids.length}sản phẩm thành công`)
-      break;
-    case "delete-all":
-      await product.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
-      req.flash("info",` Xóa  ${ids.length}sản phẩm thành công`)
-      break;
-    case "change-position":
-      //console.log(ids);
-      for(const item of ids){
-        
-        //tạo thành mảng
-        //console.log(item.split("-"))
-        //phá võ cấu trúc mảng
-        let [id,position] = item.split("-")
-        position = parseInt(position)// đang nhận là string nên ép kiểu về number
-        //console.log(id);
-        //console.log(parseInt(position));
+  if(permission.includes("product-edit")){
+    const type = req.body.type;
+    const ids = req.body.ids.split(",");
+    // chuyển id thành mảng split
+    //console.log(type);
+    //console.log(ids);
 
-        // vì là vòng lặp nên sd Update One
-        await product.updateOne({ _id: id },{position : position, $push:{ updateBy:updateBy}});
-      }
-      req.flash("info",` Đã đổi vị trí của ${ids.length}sản phẩm thành công`)
-      break;
-    default:
-      break;
+    // cập nhật trường update By
+    const updateBy = {
+      account_id:res.locals.user.id,
+      updateAt:new Date()
+    }
+    switch (type) {
+      // search tham khảo: update many in mongose
+      case "active":
+        await product.updateMany({ _id: { $in: ids } }, { status: "active",$push:{ updateBy:updateBy} });
+        req.flash("info",` cập nhật trạng thái ${ids.length} sản phẩm thành công`)
+        break;
+      case "inactive":
+        await product.updateMany({ _id: { $in: ids } }, { status: "inactive",$push:{ updateBy:updateBy} });
+        req.flash("info",` cập nhật trạng thái  ${ids.length}sản phẩm thành công`)
+        break;
+      case "delete-all":
+        await product.updateMany({ _id: { $in: ids } }, { deleted: true , deteteAt:new Date() });
+        req.flash("info",` Xóa  ${ids.length}sản phẩm thành công`)
+        break;
+      case "change-position":
+        //console.log(ids);
+        for(const item of ids){
+          
+          //tạo thành mảng
+          //console.log(item.split("-"))
+          //phá võ cấu trúc mảng
+          let [id,position] = item.split("-")
+          position = parseInt(position)// đang nhận là string nên ép kiểu về number
+          //console.log(id);
+          //console.log(parseInt(position));
+
+          // vì là vòng lặp nên sd Update One
+          await product.updateOne({ _id: id },{position : position, $push:{ updateBy:updateBy}});
+        }
+        req.flash("info",` Đã đổi vị trí của ${ids.length}sản phẩm thành công`)
+        break;
+      default:
+        break;
+    }
+    res.redirect("back");
+    //res.send("ok")
+  }else{
+    return
   }
-  res.redirect("back");
-  //res.send("ok")
 };
 
 // [delete] /admin/products/delete/:id
@@ -184,6 +196,7 @@ module.exports.deleteItem = async (req, res) => {
 
 // [get] /admin/products/create
 module.exports.create = async (req, res) => {
+  
   let find = {
         deleted: false,
     };
@@ -201,35 +214,42 @@ module.exports.create = async (req, res) => {
 
 // [patch] /admin/products/create
 module.exports.createPost = async (req, res) => {
-  // lấy ra data -  khi submit thì mình sẽ nhận data thông qua req.body
-  // vì luuw trong database là kiểu số nên ta cần parseInt
-  req.body.price = parseInt(req.body.price)
-  req.body.stock = parseInt(req.body.stock)
-  req.body.discount = parseInt(req.body.discount)
-  req.body.description = req.body.description || ""; // Đảm bảo trường mô tả luôn có giá trị
-  if(req.body.position == ""){
-    // tự động tăng - đếm có bao nhiêu bản ghi
-    const countProduct = await product.countDocuments()
-    //console.log(countProduct);
-    req.body.position = countProduct +1;
-    //console.log(req.body.position);
+  const permission = res.locals.role.permission
+
+  if(permission.includes("product-create")){
+    // lấy ra data -  khi submit thì mình sẽ nhận data thông qua req.body
+    // vì luuw trong database là kiểu số nên ta cần parseInt
+    req.body.price = parseInt(req.body.price)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.discount = parseInt(req.body.discount)
+    req.body.description = req.body.description || ""; // Đảm bảo trường mô tả luôn có giá trị
+    if(req.body.position == ""){
+      // tự động tăng - đếm có bao nhiêu bản ghi
+      const countProduct = await product.countDocuments()
+      //console.log(countProduct);
+      req.body.position = countProduct +1;
+      //console.log(req.body.position);
+    }
+    else{
+      req.body.position = parseInt(req.body.position)
+    }
+    // if(req.file){
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`
+    // }
+
+    // lưu người tạo sản phẩm
+    req.body.createBy = {
+      account_id:res.locals.user.id
+    }
+    // code lưu sản phẩm xuống database
+    const newproduct = new product(req.body)
+    await newproduct.save();
+    
+    res.redirect(`${prefixAdmin}/products`)
   }
   else{
-    req.body.position = parseInt(req.body.position)
+    return
   }
-  // if(req.file){
-  //     req.body.thumbnail = `/uploads/${req.file.filename}`
-  // }
-
-  // lưu người tạo sản phẩm
-  req.body.createBy = {
-    account_id:res.locals.user.id
-  }
-  // code lưu sản phẩm xuống database
-  const newproduct = new product(req.body)
-  await newproduct.save();
-  
-  res.redirect(`${prefixAdmin}/products`)
 };
 
 // GET /admin/products/edit/:id
@@ -255,36 +275,42 @@ module.exports.edit = async(req,res) => {
 
 // PATCH /admin/products/edit/:id
 module.exports.editPatch = async(req,res) => {
-  req.body.price = parseInt(req.body.price)
-  req.body.stock = parseInt(req.body.stock)
-  req.body.discount = parseInt(req.body.discount)
-  req.body.position = parseInt(req.body.position)
+  const permission = res.locals.role.permission
 
-  if(req.file){
-      req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
+  if(permission.includes("product-edit")){
+    req.body.price = parseInt(req.body.price)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.discount = parseInt(req.body.discount)
+    req.body.position = parseInt(req.body.position)
 
-  // update trong mongoose - updateOne
-  try{
-    //console.log(req.body);
-    // tạo obj luuw người edit
-    const updateBy = {
-      account_id:res.locals.user.id,
-      updateAt:new Date()
+    if(req.file){
+        req.body.thumbnail = `/uploads/${req.file.filename}`
     }
-    // cập nhật vào model
 
-    await product.updateOne({_id:req.params.id }, 
-      {
-        ...req.body,// lấy ra phần tử cũ
-        $push:{ updateBy:updateBy}// thêm vào mảng 
-      });
-    req.flash("info","Cập nhật thông tin thành công ")
+    // update trong mongoose - updateOne
+    try{
+      //console.log(req.body);
+      // tạo obj luuw người edit
+      const updateBy = {
+        account_id:res.locals.user.id,
+        updateAt:new Date()
+      }
+      // cập nhật vào model
+
+      await product.updateOne({_id:req.params.id }, 
+        {
+          ...req.body,// lấy ra phần tử cũ
+          $push:{ updateBy:updateBy}// thêm vào mảng 
+        });
+      req.flash("info","Cập nhật thông tin thành công ")
+    }
+    catch(error){
+      req.flash("error","Cập nhật thông tin thất bại")
+    }
+    res.redirect("back")
+  }else{
+    return
   }
-  catch(error){
-    req.flash("error","Cập nhật thông tin thất bại")
-  }
-  res.redirect("back")
 }
 
 //GET /admin/products/detail/:id
