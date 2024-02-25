@@ -1,6 +1,7 @@
 // chứa router
 const productRouter = require("./product.route")
 const homeRouter = require("./home.router")
+const searchRouter = require("./search.router")
 
 const categoryMiddlewares = require("../../middlewares/client/category.middlewares")// cài vào để luôn luôn lấy ra danh mục
 
@@ -13,4 +14,6 @@ module.exports = (app) =>{
     app.use('/', homeRouter);
 
     app.use('/products', productRouter);
+    
+    app.use('/search', searchRouter);
 }
