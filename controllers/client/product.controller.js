@@ -24,17 +24,34 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// GET /products/:slug
+// GET /products/detail/:slugProduct
 module.exports.detail = async (req, res) =>{
   try{
     //tìm theo slug người dùng gửi lên
     const find = {
       deleted:false,
-      slug : req.params.slug,
+      slug : req.params.slugProduct,
       status:"active",
     } 
 
     const productF = await product.findOne(find)
+
+    //- lấy ra danh mục cha của sản phẩm
+    if (productF.productCategoryId)
+    {
+      const category =  await ProductCategory.findOne({
+        _id: productF.productCategoryId,
+        deleted:false,
+        status:"active"
+      })
+
+      // thêm key mới
+      productF.category = category
+    }
+
+    //- tính giá mới
+    productF.priceNew = productHelper.priceNewProduct(productF)
+
     //console.log(productF);
     res.render("client/pages/products/detail",{
       pageTitle:productF.title,
@@ -42,10 +59,9 @@ module.exports.detail = async (req, res) =>{
     })
   }
   catch(error){
+    //console.error(error)
     res.redirect(`/products`)
   }
-
-
 }
 // GET /products/:slugCategory
 //- lấy sản phẩm theo danh mục header

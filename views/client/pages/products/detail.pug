@@ -1,28 +1,40 @@
 extends ../../layout/default.pug
+include ../../mixins/box-head.pug
 
 block main 
-    .container.my-3 
-        .row 
-            .col-12 
-                h1 tiêu đề
-                if(productF.title)
-                    h1.mb-4 #{productF.title}
-            
-                if (productF.price)
-                    div.mb-4 Gía :<b> #{productF.price} </b>
-                
-                if (productF.discountPercentage)
-                    div.mb-4 Giam giá : <b> #{productF.discountPercentage} </b>
+    .product-detail
+        .container.my-3 
+            .row 
+                .col-6 
+                    .inner-thumb
+                        img.img-detail(src=productF.thumbnail) 
+                .col-6 
+                    h1.inner-title.mb-2 #{productF.title}
+                    if productF.category
+                        div.inner-category.mb-2
+                            span Danh mục:
+                            a(href=`/products/${productF.category.slug}`) #{productF.category.title}
+                    
+                    if productF.price
+                        div.inner-price-old.mb-2 Gía :<b> #{productF.price} </b>
+                    if productF.priceNew
+                        div.inner-price-new.mb-2 Gía mới :<b> #{productF.priceNew} </b>
+                    
+                    if productF.discountPercentage
+                        div.inner-percent.mb-2 Giảm giá : <span> #{productF.discountPercentage} </span>
 
-                if (productF.discountPercentage)
-                    div.mb-4 Còn lại : <b> #{productF.stock} </b>
+                    if productF.stock
+                        div.inner-stock.mb-2 Còn lại : <span> #{productF.stock} </span> sản phẩm
 
-                if (productF.position)
-                    div.mb-4 Vị trí : <b> #{productF.position} </b>
-                
-                if (productF.thumbnail)
-                    .mb-4 
-                        img(
-                            src= productF.thumbnail 
-                            style="width:100px;"
-                        )
+                    //- form để thêm vào giỏ hàng
+                    form(action=`/cart/add/${productF.id}`, method="POST")
+                        input.form-control.mb-2(type="number", name="quantity", value="1", min="1", max=productF.stock) 
+                        button.btn.btn-success.btn-block(type="submit") Thêm vào giỏ hàng
+
+        hr
+
+        .container.my-5 
+            .row 
+                .col-12 
+                    +box-head("Mô tả sản phẩm")
+                    .inner-desc !{productF.description}

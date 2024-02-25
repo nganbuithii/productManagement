@@ -109,3 +109,37 @@ object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp m�
     padding: 3px;
     border-radius: 10px 0 10px 0;
 }
+
+/* css tran chi tiết sp -client"*/
+.img-detail{
+    width: 90%;
+    height: 550px;
+}
+.product-detail .inner-title{
+    font-size:32px;
+    color:rgb(79, 179, 79)
+}
+.product-detail .inner-price-new{
+    color: greenyellow;
+    font-weight: 600px;
+
+}
+.product-detail .inner-price-old{
+    color:red;
+    font-weight: 600px;
+    text-decoration: line-through;
+
+}
+
+.product-detail .inner-percent span{
+    color: #fff;
+    background-color: red;
+    font-weight: 600px;
+    display: inline-block;
+}
+.product-detail .inner-stock span{
+    color: #fff;
+    background-color: rgb(70, 230, 86);
+    font-weight: 600px;
+    display: inline-block;
+}
