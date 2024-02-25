@@ -143,3 +143,54 @@ object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp m�
     font-weight: 600px;
     display: inline-block;
 }
+
+/* code alert*/
+
+/*code alert */
+
+[show-alert]{
+    position: fixed;
+    top:70px;
+    right:15px;
+    z-index:999;
+
+}
+[show-alert].alert-hidden{
+    animation-name: alert-hidden;
+    animation-duration:0.5s;
+    animation-fill-mode: both;
+}
+@keyframes alert-hidden {
+    from {
+        right:15px;
+    }
+    to{
+        right: -100%;
+        display: none;
+    }
+}
+/* close alert*/
+[close-alert]{
+    background-color: #fff;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* close button*/
+.close-button {
+    position: absolute;
+    top: 5px;
+    left: 85px;
+    background-color: rgb(197, 188, 188); /* Màu nền của nút đóng */
+    color: #e9e6e6; /* Màu chữ của nút đóng */
+    padding: 3px;
+    border-radius: 20%; /* Để tạo hình dạng hình tròn cho nút */
+    display: none; /* Ẩn nút đóng ban đầu */
+}  
+/* end alert*/
