@@ -21,4 +21,7 @@ header.header
                             -const pathProduct =  "/products"
                             a(href=pathProduct)  Sản phẩm
                                 +sub-menu(layoutProductCategory, pathProduct)
-                        
+                        li 
+                            a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : "0"})
+                            //- bời vì header đi xuyên suốt tất cả các trang vì thế phải viết vào middleware
+                            //- để giỏ hàng là datta động
