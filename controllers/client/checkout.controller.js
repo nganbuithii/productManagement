@@ -91,3 +91,32 @@ module.exports.order = async(req, res) => {
     //- chuyển hướng đến trang đặt hàng thành công
     res.redirect(`/checkout/success/${order.id}`)
 }
+// GET /checkout/success/id
+module.exports.success = async(req, res) => {
+    const order = await Order.findOne({
+        _id: req.params.orderId
+    })
+    //-console.log(order);
+
+    for(const product of order.products){
+        const productInfo = await Product.findOne({
+            _id: product.product_id
+        }).select("title thumbnail")
+
+        // thêm key productinfo
+        product.productInfo = productInfo
+
+        // tính giá mới (sử dụng helper)
+        product.priceNew= productHelper.priceNewProduct(product)
+
+        //tính tổng tiền
+        product.totalPrice = product.priceNew * product.quantity
+    }
+    // giá của tổng đơn hàng
+    order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0)
+
+    res.render("client/pages/checkout/success",{
+        pageTitle:"Đặt hàng thành công",
+        order: order
+    })
+}
