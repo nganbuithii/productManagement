@@ -38,3 +38,56 @@ module.exports.index = async(req, res) => {
     })
 
 }
+
+//POST /checkout/order
+module.exports.order = async(req, res) => {
+    const cartId = req.cookies.cartId
+
+    const userInfo = req.body
+
+    const cart = await Cart.findOne({
+        _id: cartId
+    })
+    let products = []
+
+    // lấy ra các sản phẩm trong cart
+    for(const product of cart.products){
+        // tạo 1obj product
+        const objProduct = {
+            product_id : product.product_id,
+            price:0,
+            discountPercentage: 0,
+            quantity :product.quantity
+        }
+        //truy vấn sản phẩm
+        const productInfo = await Product.findOne({
+            _id:product.product_id
+        })
+        // tìm được sản phẩm rồi thì cập nhật price và discount
+        objProduct.price = productInfo.price
+        objProduct.discountPercentage = productInfo.discountPercentage
+
+        products.push(objProduct)
+    }
+    // lưu vào database
+    const objOrder = {
+        cart_id:cartId,
+        // 1obj thông tin người dùng
+        userInfo :userInfo,
+        //mảng sản phẩm
+        products:products
+    }
+    // lưu
+    const order = new Order(objOrder)
+    await order.save();
+
+    //- CẬP NHẬT LẠI GIỎ HÀNG THÀNH MẢNG RỖNG
+    await Cart.updateOne({
+        _id:cartId
+    },{
+        products:[]
+    })
+    
+    //- chuyển hướng đến trang đặt hàng thành công
+    res.redirect(`/checkout/success/${order.id}`)
+}
