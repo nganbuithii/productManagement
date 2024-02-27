@@ -110,3 +110,21 @@ module.exports.delete = async(req, res) => {
     req.flash("info"," Xóa sản phẩm khỏi giỏ hàng thành công")
     res.redirect("back")
 }  
+//GET /cart/update/:productId/:quantity
+module.exports.update = async(req, res) => {
+    const productId = req.params.productId
+    const cartId = req.cookies.cartId
+    const quantity = req.params.quantity
+    
+    // xóa sản phẩm có id đó ra khỏi mảng product
+    //- search : How to remove obj from array using mongoose
+    await Cart.updateOne({
+        _id:cartId,
+        'products.product_id' : productId
+    },{
+        'products.$.quantity' : quantity
+    })
+
+    req.flash("info"," Cập nhật số lượng thành công")
+    res.redirect("back")
+}  

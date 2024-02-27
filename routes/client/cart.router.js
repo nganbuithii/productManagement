@@ -12,6 +12,7 @@ router.get("/", controller.index)
 
 router.get("/delete/:productId", controller.delete)
 
+router.get("/update/:productId/:quantity", controller.update)
 
 
 // export
