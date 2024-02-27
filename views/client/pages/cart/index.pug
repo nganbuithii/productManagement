@@ -38,7 +38,8 @@ block main
                                             input(type="number" name="quantity" value=item.quantity min="1" product-id=item.product_id style="width:60px")
                                         td #{item.totalPrice}$
                                         td 
-                                            a(href=`/cart/delete/${item.productInfo.slug}` class="btn btn-danger") Xóa
+                                            //- bởi vì giỏ hàng không cần phải bảo mật quá cao nên không cần gửi bằng phương thức PATCH-- sử dụng GET
+                                            a(href=`/cart/delete/${item.product_id}` class="btn btn-danger") Xóa
                             else 
                                 p Không có sản phẩm nào trong giỏ hàng
                 h3.text-right Tổng đơn hàng: #{cart.totalPrice} $

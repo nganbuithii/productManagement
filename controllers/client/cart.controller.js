@@ -93,3 +93,20 @@ module.exports.index = async(req, res) => {
     })
 
 }
+
+//GET /cart/delete/:productId
+module.exports.delete = async(req, res) => {
+    const productId = req.params.productId
+    const cartId = req.cookies.cartId
+    
+    // xóa sản phẩm có id đó ra khỏi mảng product
+    //- search : How to remove obj from array using mongoose
+    await Cart.updateOne({
+        _id:cartId
+    },{
+        "$pull" : {products: {"product_id": productId}}
+    })
+
+    req.flash("info"," Xóa sản phẩm khỏi giỏ hàng thành công")
+    res.redirect("back")
+}  
