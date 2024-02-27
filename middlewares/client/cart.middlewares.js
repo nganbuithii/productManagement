@@ -24,7 +24,7 @@ module.exports.cartId = async(req, res, next) => {
             _id:req.cookies.cartId
         })
 
-        console.log(cart);
+        //console.log(cart);
 
         //- lấy ra tổng số lượng sản phẩm trong 
         //- thêm biến total
