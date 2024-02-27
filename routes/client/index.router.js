@@ -3,6 +3,7 @@ const productRouter = require("./product.route")
 const homeRouter = require("./home.router")
 const searchRouter = require("./search.router")
 const cartRouter = require("./cart.router")
+const checkoutRouter = require("./checkout.router")
 
 const categoryMiddlewares = require("../../middlewares/client/category.middlewares")// cài vào để luôn luôn lấy ra danh mục
 const cartMiddlewares = require("../../middlewares/client/cart.middlewares")
@@ -22,4 +23,6 @@ module.exports = (app) =>{
     app.use('/search', searchRouter);
     
     app.use('/cart', cartRouter);
+
+    app.use('/checkout', checkoutRouter);
 }
