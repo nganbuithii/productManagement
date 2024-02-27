@@ -15,3 +15,15 @@ if(showAlert){
         showAlert.classList.add("alert-hidden")
     })
 }
+
+
+// viết sự kiển trờ về cho nut go back
+const buttonGoBack = document.querySelectorAll("[button-go-back]")
+// trả về mảng
+if(buttonGoBack.length > 0){
+    buttonGoBack.forEach(button => {
+        button.addEventListener("click",() => {
+            history.back();
+        })
+    })
+}
