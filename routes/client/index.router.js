@@ -8,6 +8,7 @@ const userRouter = require("./user.router")
 
 const categoryMiddlewares = require("../../middlewares/client/category.middlewares")// cài vào để luôn luôn lấy ra danh mục
 const cartMiddlewares = require("../../middlewares/client/cart.middlewares")
+const userMiddlewares = require("../../middlewares/client/user.middlewares")
 
 // để sử dụng đc thì sd module.export
 module.exports = (app) =>{
@@ -16,6 +17,7 @@ module.exports = (app) =>{
 
     // luôn chạy qua cart middleware
     app.use(cartMiddlewares.cartId)
+    app.use(userMiddlewares.getInfoUser)
 
     app.use('/', homeRouter);
 
