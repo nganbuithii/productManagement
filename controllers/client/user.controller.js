@@ -42,3 +42,49 @@ module.exports.registerPost = async(req, res) => {
     }
 }
 
+//GET /user/login
+module.exports.login = async(req, res) => {
+    res.render("client/pages/user/login",{
+        pageTitle:"Đăng nhập",
+    })
+
+}
+//POST /user/login
+module.exports.loginPost = async (req, res) => {
+    //console.log(req.body);
+    //res.send("ok")
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    //- kiểm tra tồn tại user có email đó k
+    const user = await User.findOne({
+        email: email,
+        deleted: false
+    });
+
+    //- nếu không tồn tại user
+    if (!user) {
+        req.flash("error", "Email không tồn tại");
+        res.redirect("back");
+        return;
+    }
+
+    //- check mật khẩu
+    if (md5(password) !== user.password) {
+        req.flash("error", "Sai mật khẩu");
+        res.redirect("back");
+        return;
+    }
+
+    //- check trạng thái nếu inactive
+    if (user.status === "inactive") {
+        req.flash("error", "Tài khoản đang bị khóa");
+        res.redirect("back");
+        return;
+    }
+
+    //- ĐĂNG NHẬP THÀNH CÔNG THÌ LƯU TOKEN USER VÀO COOKIE
+    res.cookie("tokenUser", user.tokenUser);
+    res.redirect("/");
+};

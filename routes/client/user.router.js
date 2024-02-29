@@ -8,7 +8,7 @@ const controller = require("../../controllers/client/user.controller");
 router.get("/register", controller.register)
 router.post("/register",validates.registerPost, controller.registerPost)
 
-
-
+router.get("/login", controller.login)
+router.post("/login",validates.loginPost, controller.loginPost)
 // export
 module.exports = router;
