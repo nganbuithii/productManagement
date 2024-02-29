@@ -6,7 +6,7 @@ const forgotPasswordSchema = new mongoose.Schema({
     // set thời gian hết hạn
     expireAt:{
         type:Date,
-        expires:180
+        expires:300
     }
     },
     {
