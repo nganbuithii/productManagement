@@ -89,6 +89,12 @@ module.exports.loginPost = async (req, res) => {
 
     //- ĐĂNG NHẬP THÀNH CÔNG THÌ LƯU TOKEN USER VÀO COOKIE
     res.cookie("tokenUser", user.tokenUser);
+    // lưu user_id vào model Cart ( có user_id có cartId trong cookies thì t sẽ biết giỏ hàng nào)
+    await Cart.updateOne({
+        _id: req.cookies.cartId
+    },{
+        user_id:user.id
+    })
     res.redirect("/");
 };
 //GET /user/logout
