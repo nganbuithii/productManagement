@@ -29,6 +29,8 @@ header.header
                             //- nếu đăng nhập rồi thì hiện đăng xuất
                         if(user)
                             li 
+                                a(href="/user/info") #{user.fullName}
+                            li 
                                 a(href="/user/logout") Đăng xuất
                         else
                             li 
@@ -36,4 +38,5 @@ header.header
                             li 
                                 a(href="/user/login") Đăng nhập
                             //-li #{user}
+                        
                         

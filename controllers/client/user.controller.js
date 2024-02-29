@@ -200,3 +200,11 @@ module.exports.resetPasswordPost= async (req, res) => {
     req.flash("info"," Đổi mật khẩu thành công")
     res.redirect("/")
 };
+
+// GET /user/info
+module.exports.info= async (req, res) => {
+    //- phải thêm middlewares authen -- phải đăng nhập vào mới vào đc
+    res.render("client/pages/user/info",{
+        pageTitle:"Thông tin tài khoản",
+    })
+};
