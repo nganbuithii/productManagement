@@ -5,6 +5,7 @@ const User= require("../../models/user.model")
 const ForgotPassword= require("../../models/forgot-password.model")
 const productHelper = require("../../helpers/products")
 const generateHelper = require("../../helpers/generate")
+const sendMailHelper = require("../../helpers/sendMail")
 const md5 = require("md5")
 //GET /user/regisster
 module.exports.register = async(req, res) => {
@@ -106,7 +107,7 @@ module.exports.forgotPassword = async (req, res) => {
 module.exports.forgotPasswordPost = async (req, res) => {
     //-console.log(req.body.email);
     //-res.send("ok")
-
+    const email = req.body.email
     //- check email trong database
     const user = await User.findOne({
         email:req.body.email,
@@ -136,6 +137,11 @@ module.exports.forgotPasswordPost = async (req, res) => {
     await forgotPassword.save()
 
     //- việc 2: Gửi mã OTP qua email của họ
+    //- Bật xác minh 2 bước trong gmail
+    const subject = "MÃ OTP XÁC MINH LẤY MẬT KHẨU"
+    const html= ` mã otp xác mình mật khẩu là <b>${otp}</b>.
+    Lưu ý không để lộ mã otp. Thời gian sử dụng là 3 phút`
+    sendMailHelper.sendMail(email, subject, html)
     res.redirect(`/user/password/otp?email=${req.body.email}`)
 };
 // GET /user/password/otp
