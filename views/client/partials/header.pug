@@ -25,9 +25,15 @@ header.header
                             a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : "0"})
                             //- bời vì header đi xuyên suốt tất cả các trang vì thế phải viết vào middleware
                             //- để giỏ hàng là datta động
-                        li 
-                            a(href="/user/register") Đăng ký
-                        li 
-                            a(href="/user/login") Đăng nhập
-                        //-li #{user}
+                            
+                            //- nếu đăng nhập rồi thì hiện đăng xuất
+                        if(user)
+                            li 
+                                a(href="/user/logout") Đăng xuất
+                        else
+                            li 
+                                a(href="/user/register") Đăng ký
+                            li 
+                                a(href="/user/login") Đăng nhập
+                            //-li #{user}
                         
