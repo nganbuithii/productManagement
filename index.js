@@ -41,9 +41,18 @@ app.use(flash());
 //tinymce
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
+
+
+
 //router
 route(app);
 routeAdmin(app);
+// Trang error
+app.get("*", (req, res) => {
+  res.render("client/pages/error/404",{
+    pageTitle: " 404 not found"
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
