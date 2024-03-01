@@ -9,7 +9,7 @@ module.exports.getInfoUser = async(req, res, next) => {
             deleted:false
         }).select("-password -tokenUser")
     
-        console.log(user);
+        //console.log(user);
 
         //- nếu có user
         if(user){

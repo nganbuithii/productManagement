@@ -1,0 +1,31 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+block main
+    +alert-success(3000)
+    +alert-error(3000)
+
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("Chat")
+
+        .row 
+            .col-12 
+                .chat
+                    .inner-body 
+                        .inner-incoming 
+                            .inner-name Em y 
+                            .inner-content Em cơm chưa
+                        .inner-outgoing 
+                            .inner-content Ăn rồi 
+                        .inner-incoming 
+                            .inner-name Em y
+                            .inner-content Em ăn với cơm với gì
+                        .inner-outgoing 
+                            .inner-content Em ăn với rau luộc anh ơi
+                    .inner-foot 
+                        form(class="inner-form" action="")
+                            input(type="text" placeholder=" Nhập nội dung" name="content")
+                            button 
+                                i.fa.fa-paper-plane(aria-hidden="true")

@@ -194,3 +194,67 @@ object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp m�
     display: none; /* Ẩn nút đóng ban đầu */
 }  
 /* end alert*/
+
+
+/* chat*/
+.chat {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.inner-incoming .inner-content {
+    background-color: #d9edf7; /* Màu nền cho nội dung nhận */
+}
+
+.inner-outgoing .inner-content {
+    background-color: #e40ba6; /* Màu nền cho nội dung gửi */
+}
+
+.inner-body {
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.inner-incoming, .inner-outgoing {
+    margin-bottom: 10px;
+}
+
+.inner-name {
+    font-weight: bold;
+}
+
+.inner-content {
+    background-color: #de1cc1;
+    border-radius: 10px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.inner-outgoing {
+    text-align: right;
+}
+
+.inner-form {
+    display: flex;
+    margin-top: 10px;
+}
+
+.inner-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #db0ade;
+    border-radius: 20px;
+}
+
+.inner-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #c015af;
+    color: #fff;
+    border-radius: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/*end chat*/
