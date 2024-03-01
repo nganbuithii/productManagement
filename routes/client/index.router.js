@@ -11,6 +11,7 @@ const categoryMiddlewares = require("../../middlewares/client/category.middlewar
 const cartMiddlewares = require("../../middlewares/client/cart.middlewares")
 const userMiddlewares = require("../../middlewares/client/user.middlewares")
 const settingMiddlewares = require("../../middlewares/client/setting.middlewares")
+const authMiddlewares = require("../../middlewares/client/auth.middlewares")
 
 // để sử dụng đc thì sd module.export
 module.exports = (app) =>{
@@ -34,5 +35,6 @@ module.exports = (app) =>{
     
     app.use('/user', userRouter);
     
-    app.use('/chat', chatRouter);
+    //- chỉ ai đăng nhập mới vào được
+    app.use('/chat', authMiddlewares.requiredAuth, chatRouter);
 }
