@@ -13,6 +13,19 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var path = require('path');
 
+// socket.io
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+/* end socket.io*/
+
 // thư viện convert timestamp
 const moment = require("moment")
 
@@ -54,6 +67,6 @@ app.get("*", (req, res) => {
   })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
