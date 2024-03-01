@@ -213,7 +213,7 @@ object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp m�
 
 .inner-body {
     padding: 15px;
-    max-height: 300px;
+    max-height: 450px;
     overflow-y: auto;
 }
 

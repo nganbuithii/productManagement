@@ -26,11 +26,21 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 
     // hiển thị ra ngoài giao diện
     const body = document.querySelector(".chat .inner-body")
+    const myId = document.querySelector("[my-id]").getAttribute("my-id")
 
     const div = document.createElement("div")
-    div.classList.add("inner-incoming")
+
+    let htmlFullName = ""
+
+    if(myId == data.userid){
+        div.classList.add("inner-outgoing")
+    }else{
+        div.classList.add("inner-incoming")
+        htmlFullName =  ` <div class="inner-name"> ${data.fullName} </div>`
+    }
+    
     div.innerHTML = `
-    <div class="inner-name"> ${data.fullName} </div>
+    ${htmlFullName}
     <div class="inner-content"> ${data.content} </div>
     `
     body.appendChild(div)
