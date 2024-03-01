@@ -14,16 +14,13 @@ block main
             .col-12 
                 .chat
                     .inner-body 
-                        .inner-incoming 
-                            .inner-name Em y 
-                            .inner-content Em cơm chưa
-                        .inner-outgoing 
-                            .inner-content Ăn rồi 
-                        .inner-incoming 
-                            .inner-name Em y
-                            .inner-content Em ăn với cơm với gì
-                        .inner-outgoing 
-                            .inner-content Em ăn với rau luộc anh ơi
+                        each chat in chats
+                            div(class=(chat.infoUser.id == user.id ? "inner-outgoing" : "inner-incoming"))
+                                //- nếu  khác id thì mới hiện tên
+                                if(chat.infoUser.id != user.id)
+                                    .inner-name #{chat.infoUser.fullName}
+                                .inner-content #{chat.content}
+                        
                     .inner-foot 
                         form(class="inner-form" action="")
                             input(type="text" placeholder=" Nhập nội dung" name="content")

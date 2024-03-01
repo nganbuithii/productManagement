@@ -8,7 +8,7 @@ const chatSchema = new mongoose.Schema(
         images: Array,
         deleted:{
             type:Boolean,
-            default:False
+            default:false
         },
         deletedAt: Date
     },
@@ -17,7 +17,7 @@ const chatSchema = new mongoose.Schema(
     },
     
 );
-const Chat = mongoose.model("Chat", ChatSchema, "chat");
+const Chat = mongoose.model("Chat", chatSchema, "chat");
 //tham số thứ 3 là tên connection nha
 
 module.exports = Chat;
