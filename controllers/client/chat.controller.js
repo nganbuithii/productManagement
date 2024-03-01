@@ -5,9 +5,10 @@ const User = require("../../models/user.model")
 //GET /cart
 module.exports.index = async(req, res) => {
     const userId = res.locals.user.id
+    const fullName = res.locals.user.fullName
     // SocketIo
     //- lắng nghe sự kiện connect
-    _io.on('connection', (socket) => {
+    _io.once('connection', (socket) => {
         socket.on("CLIENT_SEND_MESSAGE", async(content) => {
             //console.log(userId);
             //console.log(content);
@@ -18,6 +19,13 @@ module.exports.index = async(req, res) => {
                 content:content
             })
             await chat.save()
+
+            //- Trả data về client
+            _io.emit("SERVER_RETURN_MESSAGE", {
+                userId: userId,
+                fullName: fullName,
+                content:content
+            })
         })
     });
 
@@ -30,7 +38,7 @@ module.exports.index = async(req, res) => {
     // sau khi tìm thì sẽ đổ ra danh sách chats thì t chỉ lấy vài tin cho đỡ nặng
     for(const chat of chats){
         const infoUser = await User.findOne({
-            _id:userId
+            _id:chat.user_id
         }).select("fullName")
 
         chat.infoUser = infoUser
