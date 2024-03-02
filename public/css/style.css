@@ -258,3 +258,22 @@ object-fit: cover; /* Đảm bảo hình ảnh đầy đủ, không bị bóp m�
     cursor: pointer;
 }
 /*end chat*/
+
+/* bảng icon*/
+.tooltip {
+    visibility: hidden;
+}
+.tooltip.shown {
+    visibility: visible;
+    opacity: 1;
+}
+/* end icon*/
+.button-icon.btn i.fa-smile-o {
+    font-size: 20px;
+    color: #999;
+}
+
+i.fa-face-smile {
+    font-size: 26px;
+    color: #ea4b9f; /* Màu của biểu tượng khi hover */
+}

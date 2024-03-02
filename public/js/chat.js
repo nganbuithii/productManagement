@@ -1,3 +1,4 @@
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");
 
@@ -58,3 +59,31 @@ if(bodyChat){
     bodyChat.scrollTop = bodyChat.scrollHeight;
 }
 // end dcroll
+
+
+//emoij picker
+//document.querySelector('emoji-picker')
+  //  .addEventListener('emoji-click', event => console.log(event.detail));
+const emoijPicker = document.querySelector("emoji-picker")
+if(emoijPicker){
+    emoijPicker.addEventListener("emoji-click" , (e) => {
+        const icon = e.detail.unicode
+        //-console.log(icon);
+
+        // insert icon vào ô input
+        const inputChat = document.querySelector(".chat .inner-form input[name='content']")
+        inputChat.value =inputChat.value + icon
+    })
+}
+
+// ẨN BẢNG ICON
+const buttonIcon = document.querySelector(".button-icon")
+if(buttonIcon){
+    const tooltip = document.querySelector('.tooltip')
+    Popper.createPopper(buttonIcon, tooltip)
+
+    buttonIcon.onclick = () => {
+        tooltip.classList.toggle('shown')
+    }
+}
+//end emoij
