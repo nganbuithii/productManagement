@@ -32,7 +32,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 
     let htmlFullName = ""
 
-    if(myId == data.userid){
+    if(myId == data.userId){
         div.classList.add("inner-outgoing")
     }else{
         div.classList.add("inner-incoming")
@@ -43,7 +43,18 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     ${htmlFullName}
     <div class="inner-content"> ${data.content} </div>
     `
-    body.appendChild(div)
+    body.appendChild(div);
+    body.scrollTop = bodyChat.scrollHeight;
+
 })
 
 // END server return message
+
+
+// Thanh scroll Chat xuống cuối cùng
+const bodyChat = document.querySelector(".chat .inner-body")
+if(bodyChat){
+    // cách bên trên bao nhiêu
+    bodyChat.scrollTop = bodyChat.scrollHeight;
+}
+// end dcroll
