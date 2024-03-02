@@ -11,9 +11,14 @@ const systemConfig = require("../../config/system")
 
 const authMiddlewares = require("../../middlewares/admin/auth.middlewares")
 
+const authController = require("../../controllers/admin/auth.controller");
 // để sử dụng đc thì sd module.export
 module.exports = (app) =>{
     const PATH_ADMIN= systemConfig.prefixAdmin
+
+    // /admin/ => trang đăng nhập
+    app.get(PATH_ADMIN, authController.index);
+
     app.use(PATH_ADMIN+'/dashboard', authMiddlewares.requiredAuth,dashboardRouter);
     
     app.use(PATH_ADMIN+'/products',authMiddlewares.requiredAuth,productRouter);
